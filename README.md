@@ -1,5 +1,7 @@
 # Cognibase Samples
 
+This repository contains sample applications that demonstrate the capabilities of Cognibase.
+
 ## Chat Application
 
 Learn how to create a minimal chat application.
