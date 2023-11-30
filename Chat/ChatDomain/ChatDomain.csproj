@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.13" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.13" />
+	</ItemGroup>
+</Project>
