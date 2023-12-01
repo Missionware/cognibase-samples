@@ -1,11 +1,46 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AnalysisMode>All</AnalysisMode>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+	</PropertyGroup>
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Remove="Assets\Ajax-loader.gif" />
+    <None Remove="Assets\check-circle2.png" />
+    <None Remove="Assets\info-empty.png" />
+    <None Remove="Assets\warning-triangle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TrimmerRootDescriptor Include="Roots.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+	  <PackageReference Include="Avalonia" Version="11.0.5" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.5" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
+	<PackageReference Include="MessageBox.Avalonia" Version="3.1.4" />
+	<PackageReference Include="LiveChartsCore" Version="2.0.0-rc1.2" />
+	<PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc1.2" />
+	  
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
+  </ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+	
 	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
@@ -15,16 +50,16 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.LinuxOS\Missionware.Cognibase.Security.LinuxOS.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security\Missionware.Cognibase.Security.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Server.Adapters.Rdbms.MSSQL\Missionware.Cognibase.Server.Adapters.Rdbms.MSSQL.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Server.Adapters.Rdbms.SQLite\Missionware.Cognibase.Server.Adapters.Rdbms.SQLite.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Server\Missionware.Cognibase.Server.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.LinuxOS\Missionware.SharedLib.LinuxOS.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization.BinaryFormatterAddin\Missionware.Serialization.BinaryFormatterAddin.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.Logging.SerilogAddin\Missionware.SharedLib.Logging.SerilogAddin.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.WindowsOS\Missionware.SharedLib.UI.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI\Missionware.SharedLib.UI.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Avalonia\Missionware.Cognibase.UI.Avalonia.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.Avalonia\Missionware.SharedLib.UI.Avalonia.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
 		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.14" />
@@ -35,19 +70,24 @@
 		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.14" />
 		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.14" />
 		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Server.Adapters.Rdbms.MSSQL" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Server.Adapters.Rdbms.SQLite" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Server" Version="0.7.14" />
 		<PackageReference Include="Missionware.Cognibase" Version="0.7.14" />
 		<PackageReference Include="Missionware.Serialization" Version="0.7.14" />
 		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.14" />
 		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.14" />
 		<PackageReference Include="Missionware.SharedLib" Version="0.7.14" />
-		<PackageReference Include="Missionware.Serialization.BinaryFormatterAddin" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib.Logging.SerilogAddin" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.UI.Avalonia" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.UI.Avalonia" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.14" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\ChatDomain\ChatDomain.csproj" />
+	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
+	  <ProjectReference Include="..\PingerUiCommon\PingerUiCommon.csproj" />
 	</ItemGroup>
-
+	<ItemGroup>
+	  <Compile Update="LoaderWindow.axaml.cs">
+	    <DependentUpon>LoaderWindow.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 </Project>

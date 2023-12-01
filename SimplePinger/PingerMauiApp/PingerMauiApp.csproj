@@ -1,0 +1,126 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AnalysisMode>All</AnalysisMode>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>PingerMauiApp</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>PingerMauiApp</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.pingermauiapp</ApplicationId>
+		<ApplicationIdGuid>cc2cce35-7a5e-4995-8a4b-fe4ed8214e2b</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<DefaultLanguage>en-US</DefaultLanguage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Images\ajax_loader.gif" />
+	  <None Remove="Resources\Images\check_circle2.png" />
+	  <None Remove="Resources\Images\info_empty.png" />
+	  <None Remove="Resources\Images\warning_triangle.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc1.2" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-rc1.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.6" />
+	</ItemGroup>
+
+
+	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity.Domain\Missionware.Cognibase.Security.Identity.Domain.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity\Missionware.Cognibase.Security.Identity.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.LinuxOS\Missionware.Cognibase.Security.LinuxOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security\Missionware.Cognibase.Security.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.LinuxOS\Missionware.SharedLib.LinuxOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI\Missionware.SharedLib.UI.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Maui\Missionware.Cognibase.UI.Maui.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.Maui\Missionware.SharedLib.UI.Maui.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.14" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.14" />
+		<PackageReference Include="Missionware.SharedLib.UI.Maui" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.14" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
+	  <ProjectReference Include="..\PingerUiCommon\PingerUiCommon.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\app.config">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiAsset>
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="LoaderPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+﻿<Window x:Class="PingerApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <DataGrid Name="dgTaskList" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="SizeToCells" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding TaskPriorityImg}" Stretch="None" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding TaskTitle}" />
+                <DataGridTextColumn Header="Due On" Binding="{Binding DueOn}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

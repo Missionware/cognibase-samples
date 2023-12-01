@@ -1,11 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AnalysisMode>All</AnalysisMode>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+	</PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Copyright>Copyright © Missionware 2023</Copyright>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.*" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.*" />
+  </ItemGroup>
+
 	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />

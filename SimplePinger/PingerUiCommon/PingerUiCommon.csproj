@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AnalysisMode>All</AnalysisMode>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+	</PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.14"/>
+		<PackageReference Include="Missionware.Serialization" Version="0.7.14"/>
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.14"/>
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+	  <PackageReference Include="LiveChartsCore" Version="2.0.0-rc1.2" />
+	  <PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc1.2" />
+      <PackageReference Include="SkiaSharp" Version="2.88.6" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
+	</ItemGroup>
+</Project>

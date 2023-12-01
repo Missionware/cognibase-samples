@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PingerAvaloniaApp"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="PingerAvaloniaApp.MainWindow"
+        Title="PingerAvaloniaApp">
+    <Window.Resources>
+        <local:StatusValueConverter x:Key="statusValueConverter" />
+    </Window.Resources>
+    <Grid RowDefinitions="40,1*,1*">
+        <Menu>
+            <MenuItem Header="_Device">
+                <MenuItem x:Name="menuAdd" Header="_Add" />
+                <Separator />
+                <MenuItem x:Name="menuEdit" Header="_Edit" />
+                <Separator />
+                <MenuItem Command="{Binding RemoveDeviceCommand}" Header="_Delete" />
+            </MenuItem>
+        </Menu>
+        <DataGrid Grid.Row="1" x:Name="devicesGrid" IsReadOnly="True" ItemsSource="{Binding Devices}"
+                  SelectedItem="{Binding SelectedDevice}" AutoGenerateColumns="False"
+                  VerticalScrollBarVisibility="Visible">
+            <DataGrid.Styles>
+                <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                    <Setter Property="Fill" Value="#05769d" />
+                </Style>
+            </DataGrid.Styles>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Status"
+                                        Width="1.5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Width="20" Height="20"
+                                   Source="{Binding PingResult, Converter={StaticResource statusValueConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Name}"
+                                    Width="1.5*" />
+                <DataGridTextColumn Header="Host"
+                                    Binding="{Binding Host}"
+                                    Width="1.5*" />
+                <DataGridTextColumn Header="Ping Interval"
+                                    Binding="{Binding PingInterval}"
+                                    Width="1.5*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <lvc:CartesianChart Grid.Row="2"
+                            Series="{Binding Series}"
+                            YAxes="{Binding YAxes}"
+                            XAxes="{Binding XAxes}" />
+    </Grid>
+</Window>

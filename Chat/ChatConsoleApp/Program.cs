@@ -4,8 +4,8 @@ using Missionware.Cognibase.Client;
 using Missionware.SharedLib;
 using Missionware.SharedLib.Logging.SerilogAddin;
 using Missionware.ConfigLib;
-using Missionware.SharedLib.Security.Identity.Domain;
 using Missionware.Cognibase.Config;
+using Missionware.Cognibase.Security.Identity.Domain.System;
 
 namespace ChatConsoleApp
 {

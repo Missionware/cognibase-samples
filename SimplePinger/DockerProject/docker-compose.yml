@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  pingerserver:
+    image: ${DOCKER_REGISTRY-}pingerserver
+    build:
+      context: .
+      dockerfile: PingerServer/Dockerfile
+    ports: 
+    - "50000:50000"
+
+  pingeragent:
+    image: ${DOCKER_REGISTRY-}pingeragent
+    build:
+      context: .
+      dockerfile: PingerAgent/Dockerfile
+    depends_on:
+    - pingerserver
+

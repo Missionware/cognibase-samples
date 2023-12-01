@@ -1,0 +1,97 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AnalysisMode>All</AnalysisMode>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+	</PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <StartupObject>PingerApp.App</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
+    <Page Remove="Properties\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\check-circle2.png" />
+    <None Remove="Images\hello_world_new_black.png" />
+    <None Remove="Images\info-empty.png" />
+    <None Remove="Images\warning-triangle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\check-circle2.png" />
+    <Resource Include="Images\hello_world_new_black.png" />
+    <Resource Include="Images\info-empty.png" />
+    <Resource Include="Images\warning-triangle.png" />
+  </ItemGroup>
+	<Choose>
+		<When Condition="$(SolutionName.Contains('Refactoring')) ">
+			<ItemGroup>
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity.Domain\Missionware.Cognibase.Security.Identity.Domain.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity\Missionware.Cognibase.Security.Identity.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Ldap\Missionware.Cognibase.Security.Ldap.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security\Missionware.Cognibase.Security.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Wpf\Missionware.Cognibase.UI.Wpf.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.WindowsOS\Missionware.SharedLib.UI.WindowsOS.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.Wpf\Missionware.SharedLib.UI.Wpf.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+			</ItemGroup>
+		</When>
+		<When Condition="$(SolutionName.Contains('Analysis')) ">
+			<ItemGroup>
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity.Domain\Missionware.Cognibase.Security.Identity.Domain.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity\Missionware.Cognibase.Security.Identity.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Ldap\Missionware.Cognibase.Security.Ldap.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security\Missionware.Cognibase.Security.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Wpf\Missionware.Cognibase.UI.Wpf.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.WindowsOS\Missionware.SharedLib.UI.WindowsOS.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.Wpf\Missionware.SharedLib.UI.Wpf.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<!--Reference to nuget.-->
+				<PackageReference Include="Missionware.SharedLib.UI.Wpf" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase.UI.Wpf" Version="0.7.14" />
+				<PackageReference Include="Missionware.Cognibase" Version="0.7.14" />
+				<PackageReference Include="Missionware.Serialization" Version="0.7.14" />
+				<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.14" />
+				<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.14" />
+				<PackageReference Include="Missionware.SharedLib" Version="0.7.14" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+</Project>
