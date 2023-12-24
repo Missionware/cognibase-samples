@@ -101,7 +101,7 @@ namespace TodoApp.Views
             base.OnOpened(e);
 
             _startupHelper = new AvaloniaStartupHelper(this, App.Client);
-            _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "TestDev", Username = "user1", Password = "user1" };
+            _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
             _startupHelper.AuthVm.DomainSelectionVisible = false;
             _startupHelper.AuthVm.SaveCredentialsSelectionVisible = false;
             _startupHelper.QuitAction = () => Close();

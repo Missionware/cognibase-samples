@@ -1,54 +1,41 @@
-using System;
-using System.Threading.Tasks;
+﻿using System;
 
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Threading;
+
+using ChatDesktopApp.ViewModels;
 
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Config;
 using Missionware.Cognibase.Security.Identity.Domain.System;
 using Missionware.Cognibase.UI.Avalonia;
-using Missionware.Cognibase.UI.Avalonia.Dialogs;
-using Missionware.Cognibase.UI.Common;
 using Missionware.Cognibase.UI.Common.ViewModels;
 using Missionware.ConfigLib;
-using PingerDomain.Entities;
 using Missionware.SharedLib;
-
-using PingerUiCommon.ViewModels;
-using PingerDomain.System;
 using Missionware.SharedLib.Avalonia;
 
-namespace PingerAvaloniaApp
+namespace ChatDesktopApp.Views
 {
     public partial class MainWindow : Window
     {
+        public static AvaloniaApplication App { get; set; }
+
         private AvaloniaStartupHelper _startupHelper;
         private readonly AvaloniaDialog _dialog = new();
         private readonly MainViewModel _vm;
 
+
         public MainWindow()
         {
             InitializeComponent();
-            Type dgType = typeof(DataGrid);
-            menuAdd.Click += MenuAdd_Click;
-            menuEdit.Click += MenuEdit_Click;
+
             _vm = new MainViewModel(App.Client, _dialog);
-            DataContext = _vm;
         }
-
-        public static AvaloniaApplication App { get; set; }
-
 
         protected override void OnInitialized()
         {
             // Call base
             base.OnInitialized();
-
-            //
-            // SETTINGS SETUP
-            //
 
             // Read client settings
             SettingsManager settings = ConfigBuilder.Create().FromAppConfigFile();
@@ -59,10 +46,6 @@ namespace PingerAvaloniaApp
             // Set to CUSTOM Connect Workflow
             clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
 
-            //
-            // APPLICATION SETUP
-            //
-
             // Initialize the correct (Avalonia) COGNIBASE Application through the Application Manager 
             App = ApplicationManager.InitializeAsMainApplication(
                 new AvaloniaApplication(new AvaloniaApplicationFeatures()));
@@ -70,28 +53,19 @@ namespace PingerAvaloniaApp
             // Initializes a Client Object Manager with the settings from configuration
             var client = ClientObjMgr.Initialize(App, ref clientSettings);
 
-            // Registers domains through Domain Factory classes that reside in Domain assembly
-            _ = client.RegisterDomainFactory<PingerFactory>();
+            // Registers domains through Domain Factory classes
             _ = client.RegisterDomainFactory<IdentityFactory>();
 
-            //
-            // SECURITY SETUP
-            //
+            // TODO: add your domain registration here
+
 
             // Initialize Security PROFILE
             _ = App.InitializeApplicationSecurity(client, ref clientSettings);
 
-            //
-            // RUN
-            //
-
+            // set the main app window
             ApplicationManager.MainAppWindow = this;
 
-            ApplicationManager.IsUserInterActive = true;
-            ApplicationManager.IsDialogInterActive = true;
-            ApplicationManager.RequiresDelegatedAuthentication = false;
-
-            // Register
+            // Fix for Avalonia
             ApplicationManager.RegisterApplicationStartingModeProvider(() => { return ApplicationStartMode.Window; });
 
             // set sync context
@@ -108,51 +82,28 @@ namespace PingerAvaloniaApp
         {
             base.OnOpened(e);
 
+            // build the startup helper that contains the auth manager, the auth dialog and the loader
             _startupHelper = new AvaloniaStartupHelper(this, App.Client);
-            _startupHelper.AuthVm  = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
-            _startupHelper.QuitAction = () => Close();
+            _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
+            _startupHelper.QuitAction = () => Close(); // set the quit action
             _startupHelper.DataLoadAction = () =>
             {
-                // read devices
-                DataItemCollection<Device> collection = App.Client.ReadDataItemCollection<Device>();
+                // data initialization flow
 
-                // set data source in main thread
+                // read data using a live collection
+                // DataItemCollection<YourDataItem> collection = App.Client.ReadDataItemCollection<YourDataItem>();
+
+                // set data source in main Avalonia thread
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    _vm.Devices = collection;
+                    // set collection in your 
+                    //_vm.ListItems = collection;
+                    mainView.DataContext = _vm;
                 });
             };
 
+            // show the authentication dialog
             await _startupHelper.ShowAuthDialog().ConfigureAwait(false);
         }
-
-        private async void MenuEdit_Click(object? sender, RoutedEventArgs e)
-        {
-            // call edit form
-            if (_vm.SelectedDevice != null)
-            {
-                var devVm = new DeviceEditVm(App.Client, _vm.SelectedDevice, _dialog);
-                var devView = new DeviceEditWindow();
-                devVm.CloseAction = devView.Close;
-                devView.SetupView(devVm);
-                await devView.ShowDialog(this).ConfigureAwait(false);
-            }
-            else
-            {
-                await _dialog.ShowMessage("Info", "Nothing is selected").ConfigureAwait(false);
-            }
-        }
-
-        private async void MenuAdd_Click(object? sender, RoutedEventArgs e)
-        {
-            var devVm = new DeviceEditVm(App.Client, null, _dialog);
-            var devView = new DeviceEditWindow();
-            devVm.CloseAction = devView.Close;
-            devView.SetupView(devVm);
-            await devView.ShowDialog(this).ConfigureAwait(false);
-        }
-
-        
-        
     }
 }

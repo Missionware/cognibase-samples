@@ -53,7 +53,7 @@ namespace PingerMauiApp
                 _vm = new MainViewModel(MauiCognibaseApplication.Client, _dialog);
                 _authManager = new SimpleAuthenticationManager(MauiCognibaseApplication.Client);
                 _authenticateWindow = new SimpleAuthenticationPage();
-                _authVm = new SimpleAuthDialogVm { DomainFullName = "TestDev", Username = "user1", Password = "user1" };
+                _authVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
                 _authenticateWindow.BindingContext = _authVm;
                 _authManager.StateChanged += _authManager_StateChanged;
                 _authManager.PropertyChanged +=
