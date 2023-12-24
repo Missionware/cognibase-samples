@@ -5,8 +5,11 @@ using Avalonia.Threading;
 
 using ChatDesktopApp.ViewModels;
 
+using ChatDomain.Entities;
+
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Config;
+using Missionware.Cognibase.Library;
 using Missionware.Cognibase.Security.Identity.Domain.System;
 using Missionware.Cognibase.UI.Avalonia;
 using Missionware.Cognibase.UI.Common.ViewModels;
@@ -23,7 +26,7 @@ namespace ChatDesktopApp.Views
         private AvaloniaStartupHelper _startupHelper;
         private readonly AvaloniaDialog _dialog = new();
         private readonly MainViewModel _vm;
-
+        private User _myUser;                   // the user object that represents the current user
 
         public MainWindow()
         {
@@ -86,18 +89,39 @@ namespace ChatDesktopApp.Views
             _startupHelper = new AvaloniaStartupHelper(this, App.Client);
             _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
             _startupHelper.QuitAction = () => Close(); // set the quit action
-            _startupHelper.DataLoadAction = () =>
+            _startupHelper.DataLoadAction = async () =>
             {
                 // data initialization flow
+                // get username
+                var myusername = App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName;
+
+                // get or create user
+                _myUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
+                _myUser.LastLoginTime = DateTime.Now;
+
+                // if just created
+                if (_myUser.IsNew)
+                {
+                    // try save or else retry
+                    if (!App.Client.Save(_myUser).WasSuccessfull)
+                    {
+                        // log
+                        await _dialog.ShowError("Error", $"Error logging to chat app. User {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName} is not registered!");
+                        _myUser.Dispose();
+                        _myUser = null;
+                        return;
+                    }
+                }
 
                 // read data using a live collection
-                // DataItemCollection<YourDataItem> collection = App.Client.ReadDataItemCollection<YourDataItem>();
+                DataItemCollection<ChatRoom> collection = App.Client.ReadDataItemCollection<ChatRoom>();
 
                 // set data source in main Avalonia thread
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     // set collection in your 
-                    //_vm.ListItems = collection;
+                    _vm.ChatRooms = collection;
+                    _vm.CurrentUser = _myUser;
                     mainView.DataContext = _vm;
                 });
             };

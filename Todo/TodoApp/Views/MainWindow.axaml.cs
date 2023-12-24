@@ -41,7 +41,7 @@ namespace TodoApp.Views
 
         public MainWindow()
         {
-            Func<ToDoItem, Task> addEditItemFunc = item => AddEditItem(item);
+            Func<ToDoItem, Task> addEditItemFunc = item => OpenAddEditItemView(item);
             AddEditItemCommand = ReactiveCommand.CreateFromTask(addEditItemFunc);
 
             Func<ToDoItem, Task> deleteItemFunc = item => DeleteItem(item);
@@ -102,8 +102,6 @@ namespace TodoApp.Views
 
             _startupHelper = new AvaloniaStartupHelper(this, App.Client);
             _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
-            _startupHelper.AuthVm.DomainSelectionVisible = false;
-            _startupHelper.AuthVm.SaveCredentialsSelectionVisible = false;
             _startupHelper.QuitAction = () => Close();
             _startupHelper.DataLoadAction = () =>
             {
@@ -121,7 +119,7 @@ namespace TodoApp.Views
             await _startupHelper.ShowAuthDialog().ConfigureAwait(false);
         }
 
-        public async Task AddEditItem(ToDoItem item)
+        public async Task OpenAddEditItemView(ToDoItem item)
         {
             var itemVm = new TodoItemEditVm(App.Client, item, _dialog);
             var itemView = new TodoEditView();

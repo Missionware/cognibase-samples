@@ -12,5 +12,47 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+	<DockPanel>
+		<Grid DockPanel.Dock="Left" >
+			<ScrollViewer VerticalScrollBarVisibility="Visible" >
+				<ListBox ItemsSource="{Binding ChatRooms}" SelectedItem="{Binding SelectedChatRoom}" >
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical">
+								<TextBlock Margin="4" Grid.Column="0"
+									  Text="{Binding Name}" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</ScrollViewer>
+		</Grid>
+		<Grid RowDefinitions="*,100">
+			<ScrollViewer VerticalScrollBarVisibility="Visible">
+				<ListBox ItemsSource="{Binding CurrentChatMessages}" >
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Margin="4" Grid.Column="0"
+									  Text="{Binding Author.Name}" />
+								<TextBlock Margin="4" Grid.Column="0"> : </TextBlock>
+								<TextBlock Margin="4" Grid.Column="0"
+									  Text="{Binding Text}" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</ScrollViewer>
+			<Grid Grid.Row="1" ColumnDefinitions="*,100">
+				<TextBox AcceptsReturn="True" 
+				 Text="{Binding NewMessageText}"
+				 Watermark="Enter your to do item"/>
+				<Button Grid.Column="1"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					Command="{Binding SendMessageCommand}">Send</Button>
+			</Grid>
+		</Grid>
+	</DockPanel>
 </UserControl>
