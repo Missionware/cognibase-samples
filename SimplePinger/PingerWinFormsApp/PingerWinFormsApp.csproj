@@ -24,23 +24,27 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.WinForms\Missionware.Cognibase.UI.WinForms.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.Drawing\Missionware.SharedLib.Drawing.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
 		<!--Reference to nuget.-->
-		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.UI.WinForms" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase" Version="0.7.14" />
-		<PackageReference Include="Missionware.Serialization" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib.UI.WinForms" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.UI.WinForms" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.23" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.UI.WinForms" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.Drawing" Version="0.7.23" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="Resources\hello_world_new_black.png" />
@@ -51,7 +55,6 @@
 	  <PackageReference Include="OpenTK" Version="4.8.1" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.Drawing\Missionware.SharedLib.Drawing.csproj" />
       <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
 	</ItemGroup>
 	<ItemGroup>

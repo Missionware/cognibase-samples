@@ -14,6 +14,8 @@ using LiveChartsCore.SkiaSharpView.Painting;
 
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Library;
+using Missionware.SharedLib.UI;
+
 using PingerDomain.Entities;
 
 using SkiaSharp;
@@ -24,7 +26,7 @@ namespace PingerUiCommon.ViewModels
     {
         private readonly IClient _client;
         public DataItemCollection<Device> _devices;
-        private readonly IDialogService _dialogService;
+        private readonly IAsyncDialogService _dialogService;
         private Device _selectedDevice;
         private ObservableCollection<ISeries> _series = new ObservableCollection<ISeries>();
         private ObservableCollection<ICartesianAxis> _xAxes = new ObservableCollection<ICartesianAxis>();
@@ -32,7 +34,7 @@ namespace PingerUiCommon.ViewModels
         private Axis xAxis;
         private Axis yAxis;
 
-        public MainViewModel(IClient client, IDialogService dialogService)
+        public MainViewModel(IClient client, IAsyncDialogService dialogService)
         {
             PropertyChanged += MainViewModel_PropertyChanged;
 
@@ -105,9 +107,9 @@ namespace PingerUiCommon.ViewModels
             if (SelectedDevice != null)
             {
                 // confirm deletion
-                DialogResult result = await _dialogService.AskConfirmation("Delete Item?",
+                AsyncDialogResult result = await _dialogService.AskConfirmation("Delete Item?",
                     $"You are about to delete the Device {SelectedDevice.Name}. Do you want to Proceed?");
-                if (result == DialogResult.NotConfirmed)
+                if (result == AsyncDialogResult.NotConfirmed)
                     return;
 
                 // mark for deletion

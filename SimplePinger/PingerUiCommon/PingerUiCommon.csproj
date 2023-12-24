@@ -13,11 +13,15 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI\Missionware.SharedLib.UI.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase" Version="0.7.14"/>
-		<PackageReference Include="Missionware.Serialization" Version="0.7.14"/>
-		<PackageReference Include="Missionware.SharedLib" Version="0.7.14"/>
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.23" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.23" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
@@ -26,6 +30,7 @@
       <PackageReference Include="SkiaSharp" Version="2.88.6" />
 	</ItemGroup>
 	<ItemGroup>
+
 		<ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
 	</ItemGroup>
 </Project>

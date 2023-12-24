@@ -5,6 +5,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\odos</DockerfileContext>
   </PropertyGroup>
 	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
@@ -27,24 +29,24 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.Logging.SerilogAddin\Missionware.SharedLib.Logging.SerilogAddin.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Server.Adapters.Rdbms.MSSQL" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Server.Adapters.Rdbms.SQLite" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase.Server" Version="0.7.14" />
-		<PackageReference Include="Missionware.Cognibase" Version="0.7.14" />
-		<PackageReference Include="Missionware.Serialization" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.7.14" />
-		<PackageReference Include="Missionware.Serialization.BinaryFormatterAddin" Version="0.7.14" />
-		<PackageReference Include="Missionware.SharedLib.Logging.SerilogAddin" Version="0.7.14" />
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Server.Adapters.Rdbms.MSSQL" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Server.Adapters.Rdbms.SQLite" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase.Server" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.23" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.23" />
+		<PackageReference Include="Missionware.Serialization.BinaryFormatterAddin" Version="0.7.23" />
+		<PackageReference Include="Missionware.SharedLib.Logging.SerilogAddin" Version="0.7.23" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\ChatDomain\ChatDomain.csproj" />

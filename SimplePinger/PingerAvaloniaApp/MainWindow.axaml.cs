@@ -18,20 +18,15 @@ using Missionware.SharedLib;
 
 using PingerUiCommon.ViewModels;
 using PingerDomain.System;
+using Missionware.SharedLib.Avalonia;
 
 namespace PingerAvaloniaApp
 {
     public partial class MainWindow : Window
     {
-        private readonly SimpleAuthenticationManager _authManager;
+        private AvaloniaStartupHelper _startupHelper;
         private readonly AvaloniaDialog _dialog = new();
-        private readonly bool _isAborted;
         private readonly MainViewModel _vm;
-
-        private SimpleAuthenticateWindow _authenticateWindow;
-        private SimpleAuthDialogVm _authVm;
-        private volatile bool _isInitialized;
-        private LoaderWindow _loader;
 
         public MainWindow()
         {
@@ -41,7 +36,6 @@ namespace PingerAvaloniaApp
             menuEdit.Click += MenuEdit_Click;
             _vm = new MainViewModel(App.Client, _dialog);
             DataContext = _vm;
-            _authManager = new SimpleAuthenticationManager(App.Client);
         }
 
         public static AvaloniaApplication App { get; set; }
@@ -93,7 +87,15 @@ namespace PingerAvaloniaApp
 
             ApplicationManager.MainAppWindow = this;
 
-            ApplicationManager.SetupAvaloniaApp();
+            ApplicationManager.IsUserInterActive = true;
+            ApplicationManager.IsDialogInterActive = true;
+            ApplicationManager.RequiresDelegatedAuthentication = false;
+
+            // Register
+            ApplicationManager.RegisterApplicationStartingModeProvider(() => { return ApplicationStartMode.Window; });
+
+            // set sync context
+            App.RegisterMainSynchronizationContext();
         }
 
         protected override void OnClosed(EventArgs e)
@@ -106,38 +108,22 @@ namespace PingerAvaloniaApp
         {
             base.OnOpened(e);
 
-            _authenticateWindow = new SimpleAuthenticateWindow();
-            _authVm = new SimpleAuthDialogVm { DomainFullName = "TestDev", Username = "user1", Password = "user1" };
-            _authenticateWindow.DataContext = _authVm;
-            _authManager.StateChanged += _authManager_StateChanged;
-            _authManager.PropertyChanged +=
-                (o, e) => _authVm.CanConnect = _authManager.Command == ConnectionCommand.None;
-            _authVm.OkCommand = new StandardCommand(() =>
-                _authManager.LoginAsync(_authVm.DomainFullName, _authVm.Username, _authVm.Password));
-            _authVm.CancelCommand = new StandardCommand(Close);
+            _startupHelper = new AvaloniaStartupHelper(this, App.Client);
+            _startupHelper.AuthVm  = new SimpleAuthDialogVm { DomainFullName = "TestDev", Username = "user1", Password = "user1" };
+            _startupHelper.QuitAction = () => Close();
+            _startupHelper.DataLoadAction = () =>
+            {
+                // read devices
+                DataItemCollection<Device> collection = App.Client.ReadDataItemCollection<Device>();
 
-            await _authenticateWindow.ShowDialog(this).ConfigureAwait(false);
-        }
-
-        private void _authManager_StateChanged(object? sender, LoginStateEventArgs e)
-        {
-            if (e.IsConnected)
-                if (!_isInitialized)
+                // set data source in main thread
+                Dispatcher.UIThread.Invoke(() =>
                 {
-                    _isInitialized = true;
+                    _vm.Devices = collection;
+                });
+            };
 
-                    _ = Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        _authenticateWindow.Close();
-                        _loader = new LoaderWindow();
-                        _ = _loader.ShowDialog(this);
-                    });
-
-                    _ = Task.Factory.StartNew(async () =>
-                    {
-                        await loadData().ConfigureAwait(false);
-                    });
-                }
+            await _startupHelper.ShowAuthDialog().ConfigureAwait(false);
         }
 
         private async void MenuEdit_Click(object? sender, RoutedEventArgs e)
@@ -166,50 +152,7 @@ namespace PingerAvaloniaApp
             await devView.ShowDialog(this).ConfigureAwait(false);
         }
 
-        private async Task<bool> isLoaderVisible()
-        {
-            return await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                return Task.FromResult(_loader.IsVisible);
-            }).ConfigureAwait(false);
-        }
-
-        // load data in background thread
-        private async Task loadData()
-        {
-            // loop
-            while (!_isAborted)
-            {
-                // wait for the loader to be visible
-                if (!await isLoaderVisible().ConfigureAwait(false))
-                {
-                    await Task.Delay(100).ConfigureAwait(false);
-                    continue;
-                }
-
-                try
-                {
-                    // read devices
-                    DataItemCollection<Device> collection = App.Client.ReadDataItemCollection<Device>();
-
-                    // set data source in main thread
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        _vm.Devices = collection;
-                    });
-                }
-                catch (Exception)
-                {
-                    // error 
-                    await Task.Delay(1000).ConfigureAwait(false);
-                    continue;
-                }
-
-                // close form (in main thread)
-                await Dispatcher.UIThread.InvokeAsync(_loader.Close);
-
-                break;
-            }
-        }
+        
+        
     }
 }

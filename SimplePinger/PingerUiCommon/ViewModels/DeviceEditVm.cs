@@ -6,6 +6,8 @@ using CommunityToolkit.Mvvm.Input;
 
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Library;
+using Missionware.SharedLib.UI;
+
 using PingerDomain.Entities;
 
 namespace PingerUiCommon.ViewModels
@@ -13,9 +15,9 @@ namespace PingerUiCommon.ViewModels
     public class DeviceEditVm : ObservableObject
     {
         private readonly IClient _client;
-        private readonly IDialogService _dialogService;
+        private readonly IAsyncDialogService _dialogService;
 
-        public DeviceEditVm(IClient client, Device device, IDialogService dialogService)
+        public DeviceEditVm(IClient client, Device device, IAsyncDialogService dialogService)
         {
             _dialogService = dialogService;
             SaveCommand = new AsyncRelayCommand(Save);
@@ -48,9 +50,9 @@ namespace PingerUiCommon.ViewModels
             if (Device != null && Device.IsChanged)
             {
                 // confirm
-                DialogResult result = await _dialogService.AskConfirmation("Cancel & Exit?",
+                AsyncDialogResult result = await _dialogService.AskConfirmation("Cancel & Exit?",
                     "There are pending changes. Do you want to cancel these edits and exit?");
-                if (result == DialogResult.Confirmed)
+                if (result == AsyncDialogResult.Confirmed)
                 {
                     // if cancel reset and close
                     _client.ResetAllMonitoredItems();
@@ -82,9 +84,9 @@ namespace PingerUiCommon.ViewModels
             if (Device != null && Device.IsChanged)
             {
                 // confirm
-                DialogResult result = await _dialogService.AskConfirmation("Cancel & Exit?",
+                AsyncDialogResult result = await _dialogService.AskConfirmation("Cancel & Exit?",
                     "There are pending changes. Do you want to cancel these edits and exit?");
-                if (result == DialogResult.Confirmed)
+                if (result == AsyncDialogResult.Confirmed)
                     // undo changes
                     _client.ResetAllMonitoredItems();
                 else // cancel closing

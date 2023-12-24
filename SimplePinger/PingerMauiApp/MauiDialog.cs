@@ -1,15 +1,17 @@
-﻿using PingerUiCommon;
+﻿using Missionware.SharedLib.UI;
+
+using PingerUiCommon;
 
 namespace PingerMauiApp
 {
-    public class MauiDialog : IDialogService
+    public class MauiDialog : IAsyncDialogService
     {
-        public async Task<DialogResult> AskConfirmation(string title, string message)
+        public async Task<AsyncDialogResult> AskConfirmation(string title, string message)
         {
             bool result = await Application.Current.MainPage.DisplayAlert(title, message, "Yes", "No")
                 .ConfigureAwait(false);
 
-            return result ? DialogResult.Confirmed : DialogResult.NotConfirmed;
+            return result ? AsyncDialogResult.Confirmed : AsyncDialogResult.NotConfirmed;
         }
 
         public async Task ShowError(string title, string message)
