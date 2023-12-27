@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 
@@ -20,11 +21,21 @@ namespace ChatDesktopApp.ViewModels
         private ChatRoom selectedChatRoom;
         private string newMessageText;
         private DataItemRefList<ChatMessage> currentChatMessages;
+        private DataItemRefList<ChatRoom> chatRooms;
+        private User currentUser;
         private readonly IAsyncDialogService _dialogService;
 
         public ReactiveCommand<Unit, Unit> SendMessageCommand { get; }
 
-        public DataItemCollection<ChatRoom> ChatRooms { get; set; }
+        public DataItemRefList<ChatRoom> ChatRooms 
+        { 
+            get => chatRooms;
+            set
+            {
+                chatRooms = value;
+                this.RaisePropertyChanged(nameof(ChatRooms));
+            }
+        }
 
         public DataItemRefList<ChatMessage> CurrentChatMessages 
         { 
@@ -43,8 +54,9 @@ namespace ChatDesktopApp.ViewModels
             set
             {
                 selectedChatRoom = value;
-                this.RaisePropertyChanged(nameof(selectedChatRoom));
-                CurrentChatMessages = selectedChatRoom.Messages;
+                this.RaisePropertyChanged(nameof(SelectedChatRoom));
+                if(selectedChatRoom != null)
+                    CurrentChatMessages = selectedChatRoom.Messages;
             }
         }
 
@@ -58,7 +70,22 @@ namespace ChatDesktopApp.ViewModels
             }
         }
 
-        public User CurrentUser { get; set; }
+        public User CurrentUser 
+        { 
+            get => currentUser;
+            set
+            {
+                currentUser = value;
+                this.RaisePropertyChanged(nameof(CurrentUser));
+
+                if (currentUser != null)
+                {
+                    ChatRooms = currentUser.ChatRooms;
+                    if (SelectedChatRoom == null)
+                        SelectedChatRoom = ChatRooms.FirstOrDefault();
+                }
+            }
+        }
 
         public MainViewModel() { }
 
@@ -83,7 +110,7 @@ namespace ChatDesktopApp.ViewModels
 
                 // save
                 var SaveResult = await _client.SaveAsync(false, TxnAutoInclusion.References, newMsg, CurrentUser, SelectedChatRoom);
-
+                
                 // if success close form
                 if (!SaveResult.WasSuccessfull)
                 {
@@ -92,11 +119,10 @@ namespace ChatDesktopApp.ViewModels
                 }
                 else
                 {
+                    // after save reset the textbox
                     NewMessageText = null;
                 }
             }
         }
     }
-
-
 }

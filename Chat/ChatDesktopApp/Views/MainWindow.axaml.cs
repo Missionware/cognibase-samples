@@ -113,14 +113,10 @@ namespace ChatDesktopApp.Views
                     }
                 }
 
-                // read data using a live collection
-                DataItemCollection<ChatRoom> collection = App.Client.ReadDataItemCollection<ChatRoom>();
-
                 // set data source in main Avalonia thread
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     // set collection in your 
-                    _vm.ChatRooms = collection;
                     _vm.CurrentUser = _myUser;
                     mainView.DataContext = _vm;
                 });

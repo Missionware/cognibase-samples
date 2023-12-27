@@ -16,7 +16,7 @@
 	<DockPanel>
 		<Grid DockPanel.Dock="Left" >
 			<ScrollViewer VerticalScrollBarVisibility="Visible" >
-				<ListBox ItemsSource="{Binding ChatRooms}" SelectedItem="{Binding SelectedChatRoom}" >
+				<ListBox ItemsSource="{Binding CurrentUser.ChatRooms}" SelectedItem="{Binding SelectedChatRoom}" >
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Vertical">
@@ -35,7 +35,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Margin="4" Grid.Column="0"
-									  Text="{Binding Author.Name}" />
+									  Text="{Binding Author.Username}" />
 								<TextBlock Margin="4" Grid.Column="0"> : </TextBlock>
 								<TextBlock Margin="4" Grid.Column="0"
 									  Text="{Binding Text}" />
