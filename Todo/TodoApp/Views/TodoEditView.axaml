@@ -2,19 +2,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300" 
-        x:Class="TodoApp.Views.TodoEditView">
-	<DockPanel>
-		<Button DockPanel.Dock="Bottom"
-				HorizontalAlignment="Stretch"
-				HorizontalContentAlignment="Center"
-				Command="{Binding CancelCommand}">Cancel</Button>
-		<Button DockPanel.Dock="Bottom"
-				HorizontalAlignment="Stretch"
-				HorizontalContentAlignment="Center"
-				Command="{Binding SaveCommand}">OK</Button>
-		<TextBox AcceptsReturn="True"
-				 Text="{Binding Item.Description}"
-				 Watermark="Enter your to do item"/>
-	</DockPanel>
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
+             x:Class="TodoApp.Views.TodoEditView">
+    <DockPanel>
+        <Button DockPanel.Dock="Bottom"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Command="{Binding CancelCommand}">
+            Cancel
+        </Button>
+        <Button DockPanel.Dock="Bottom"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Command="{Binding SaveCommand}">
+            OK
+        </Button>
+        <TextBox AcceptsReturn="True"
+                 Text="{Binding Item.Description}"
+                 Watermark="Enter your to do item" />
+    </DockPanel>
 </UserControl>

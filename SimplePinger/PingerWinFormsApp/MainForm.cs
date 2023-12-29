@@ -8,7 +8,9 @@ using LiveChartsCore.SkiaSharpView.Painting;
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Library;
 using Missionware.Cognibase.UI.WinForms.Client;
+
 using PingerDomain.Entities;
+
 using Missionware.SharedLib;
 
 using PingerWinFormsApp.Properties;
@@ -39,15 +41,13 @@ namespace PingerWinFormsApp
             dataGridView1.DataError += DataGridView1_DataError;
 
             // map values to PingHistoryItem dataitem properties
-            LiveCharts.Configure(config =>
-                config
-                    .HasMap<PingHistoryItem>((histItem, point) =>
-                    {
-                        // map the value
-                        point.PrimaryValue = (float)histItem.Value;
-                        // convert to file time and map
-                        point.SecondaryValue = histItem.Time.ToFileTime();
-                    }));
+            LiveCharts.Configure(config => config.HasMap<PingHistoryItem>((histItem, point) =>
+            {
+                // map the value
+                point.PrimaryValue = (float)histItem.Value;
+                // convert to file time and map
+                point.SecondaryValue = histItem.Time.ToFileTime();
+            }));
 
             // setup chart
             SetupChart();
@@ -122,9 +122,7 @@ namespace PingerWinFormsApp
             if (currentObject != null)
             {
                 // confirm deletion
-                DialogResult result = MessageBox.Show(
-                    $"You are about to delete the Device {currentObject.Name}. Do you want to Proceed?",
-                    "Delete Item?", MessageBoxButtons.YesNo);
+                DialogResult result = MessageBox.Show($"You are about to delete the Device {currentObject.Name}. Do you want to Proceed?", "Delete Item?", MessageBoxButtons.YesNo);
                 if (result == DialogResult.No)
                     return;
 
@@ -150,22 +148,25 @@ namespace PingerWinFormsApp
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // on load create the loading form
-            var frm = new LoaderForm();
+            // on load create the loading form (to be affiliated with this form)
+            var frm = new LoaderForm() { Owner = this };
 
-            // load in background thread and close form
+            // in background thread: open the form, load and then close the form
             Task.Factory.StartNew(() =>
             {
                 loadData(frm);
             });
-
-            // show loading form
-            frm.ShowDialog(this);
         }
 
         // load data in background thread
         private void loadData(LoaderForm frm)
         {
+            // show form (invoke in main thread)
+            this.InvokeIfRequired<Control>(o =>
+            {
+                frm.Show();
+            });
+
             // loop
             while (!_isAborted)
             {
@@ -178,10 +179,18 @@ namespace PingerWinFormsApp
 
                 try
                 {
+                    // Check if we are connected
+                    if (!App.Client.CanProvideData)
+                    {
+                        // not connected
+                        Thread.Sleep(1000);
+                        continue;
+                    }
+
                     // read devices
                     DataItemCollection<Device>? collection = App.Client.ReadDataItemCollection<Device>();
 
-                    // set data source in main thread
+                    // set data source (invoke in main thread)
                     this.InvokeIfRequired<Control>(o =>
                     {
                         bsDevices.DataSource = collection;
@@ -194,7 +203,7 @@ namespace PingerWinFormsApp
                     continue;
                 }
 
-                // close form (in main thread)
+                // close form (invoke in main thread)
                 this.InvokeIfRequired<Control>(o =>
                 {
                     frm.Close();
@@ -278,18 +287,17 @@ namespace PingerWinFormsApp
                     GeometrySize = 3.0,
                     GeometryStroke = new SolidColorPaint(SKColors.Gray),
                     Stroke = new SolidColorPaint(SKColors.Gray) { StrokeThickness = 3 },
-                    TooltipLabelFormatter =
-                        chartPoint =>
-                        {
-                            string str = "Unknown";
-                            if (chartPoint.PrimaryValue == 1)
-                                str = "Down";
-                            else if (chartPoint.PrimaryValue == 2)
-                                str = "Up";
+                    TooltipLabelFormatter = chartPoint =>
+                    {
+                        string str = "Unknown";
+                        if (chartPoint.PrimaryValue == 1)
+                            str = "Down";
+                        else if (chartPoint.PrimaryValue == 2)
+                            str = "Up";
 
-                            var dt = DateTime.FromFileTime((long)chartPoint.SecondaryValue);
-                            return $"{str}{Environment.NewLine}{dt.ToString()}";
-                        }
+                        var dt = DateTime.FromFileTime((long)chartPoint.SecondaryValue);
+                        return $"{str}{Environment.NewLine}{dt.ToString()}";
+                    }
                 }
             };
         }
@@ -331,15 +339,13 @@ namespace PingerWinFormsApp
         private IDataItemCollectionValidator<PingHistoryItem> getHistoryQuery(long deviceId)
         {
             // get field
-            DataItemField? timeField = DataItem.GetClassInfo(typeof(PingHistoryItem))
-                .GetField(nameof(PingHistoryItem.DeviceId));
+            DataItemField? timeField = DataItem.GetClassInfo(typeof(PingHistoryItem)).GetField(nameof(PingHistoryItem.DeviceId));
 
             // create where clayse
             var whereActiveExpr = new WhereComparisonExpression(timeField, WhereOperator.Equal, deviceId);
 
             // create vaidator and return
-            var deletionValidator =
-                new DataItemCollectionValidator<PingHistoryItem>(true) as IDataItemCollectionValidator<PingHistoryItem>;
+            var deletionValidator = new DataItemCollectionValidator<PingHistoryItem>(true) as IDataItemCollectionValidator<PingHistoryItem>;
             deletionValidator.QueryExpression = whereActiveExpr;
             deletionValidator.IsForceLoader = true;
             return deletionValidator;

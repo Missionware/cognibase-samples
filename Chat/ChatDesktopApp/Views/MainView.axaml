@@ -6,62 +6,66 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ChatDesktopApp.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
 
 
-	<DockPanel>
-		<Grid DockPanel.Dock="Left" RowDefinitions="80,*" Width="200" >
-			<StackPanel Orientation="Vertical" Grid.Row="0" >
-				<TextBox Margin="5" Width="190"
-						 HorizontalAlignment="Stretch"
-					  Text="{Binding NewRoomText}" />
-				<Button Width="190" Margin="5"
-				   HorizontalAlignment="Right"
-					HorizontalContentAlignment="Center"
-					Command="{Binding CreateRoomCommand}">Create/Join Room</Button>
-			</StackPanel>
-			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" >
-				<ListBox ItemsSource="{Binding CurrentUser.ChatRooms}" SelectedItem="{Binding SelectedChatRoom}" >
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Vertical">
-								<TextBlock Margin="4" Grid.Column="0"
-									  Text="{Binding Name}" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</ScrollViewer>
-		</Grid>
-		<Grid RowDefinitions="*,100">
-			<ScrollViewer VerticalScrollBarVisibility="Visible">
-				<ListBox ItemsSource="{Binding CurrentChatMessages}" >
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Margin="4" Grid.Column="0"
-									  Text="{Binding Author.Username}" />
-								<TextBlock Margin="4" Grid.Column="0">: </TextBlock>
-								<TextBlock Margin="4" Grid.Column="0"
-									  Text="{Binding Text}" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</ScrollViewer>
-			<Grid Grid.Row="1" ColumnDefinitions="*,100">
-				<TextBox AcceptsReturn="True" Margin="5"
-				 Text="{Binding NewMessageText}"
-				 Watermark="Enter your to do item"/>
-				<Button Grid.Column="1" Margin="5"
-					HorizontalAlignment="Stretch"
-					HorizontalContentAlignment="Center"
-					Command="{Binding SendMessageCommand}">Send</Button>
-			</Grid>
-		</Grid>
-	</DockPanel>
+    <DockPanel>
+        <Grid DockPanel.Dock="Left" RowDefinitions="80,*" Width="200">
+            <StackPanel Orientation="Vertical" Grid.Row="0">
+                <TextBox Margin="5" Width="190"
+                         HorizontalAlignment="Stretch"
+                         Text="{Binding NewRoomText}" />
+                <Button Width="190" Margin="5"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        Command="{Binding CreateRoomCommand}">
+                    Create/Join Room
+                </Button>
+            </StackPanel>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                <ListBox ItemsSource="{Binding CurrentUser.ChatRooms}" SelectedItem="{Binding SelectedChatRoom}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Margin="4"
+                                           Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Grid>
+        <Grid RowDefinitions="*,100">
+            <ScrollViewer VerticalScrollBarVisibility="Visible">
+                <ListBox ItemsSource="{Binding CurrentChatMessages}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="4"
+                                           Text="{Binding Author.Username}" />
+                                <TextBlock Margin="4">: </TextBlock>
+                                <TextBlock Margin="4"
+                                           Text="{Binding Text}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+            <Grid Grid.Row="1" ColumnDefinitions="*,100">
+                <TextBox AcceptsReturn="True" Margin="5"
+                         Text="{Binding NewMessageText}"
+                         Watermark="Enter your to do item" />
+                <Button Grid.Column="1" Margin="5"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        Command="{Binding SendMessageCommand}">
+                    Send
+                </Button>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </UserControl>

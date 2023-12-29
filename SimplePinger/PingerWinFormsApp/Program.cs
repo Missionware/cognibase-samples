@@ -18,13 +18,13 @@ namespace PingerWinFormsApp
         [STAThread]
         private static void Main()
         {
-            // Winforms standard calls
+            // WIN FORMS standard calls
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 
             //
-            // WINFORMS APPLICATION BUILDUP
+            // WIN FORMS APPLICATION BUILDUP
             //
             MainForm.App = WinFormsApplicationBuilder.CreateAsMain()
                 .WithMainWindowType<MainForm>()
@@ -40,12 +40,15 @@ namespace PingerWinFormsApp
             MainForm.App.StartSplash(new SplashControlData
             {
                 ImageBytes = Resources.hello_world_new_black.ToImageBytes(),
-                MessageColorCode = new AppColor { A = 255, R = 255, G = 255, B = 255 },
+                MessageColorCode = new AppColor
+                {
+                    A = 255, R = 255, G = 255, B = 255
+                },
                 TitleMessage = "Initializing PINGER..."
             });
 
             // Start
-            MainForm.App.StartUpClient(StartupConnectionMode.ConnectAndStart);
+            MainForm.App.StartUpClient(StartupConnectionMode.StartAndConnect);
         }
     }
 }
