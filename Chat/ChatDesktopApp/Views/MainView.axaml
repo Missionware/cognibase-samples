@@ -58,7 +58,7 @@
             <Grid Grid.Row="1" ColumnDefinitions="*,100">
                 <TextBox AcceptsReturn="True" Margin="5"
                          Text="{Binding NewMessageText}"
-                         Watermark="Enter your to do item" />
+                         Watermark="Enter your text to send and click on Send button" />
                 <Button Grid.Column="1" Margin="5"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Center"

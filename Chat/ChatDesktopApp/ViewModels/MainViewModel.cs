@@ -30,15 +30,6 @@ namespace ChatDesktopApp.ViewModels
         public ReactiveCommand<Unit, Unit> SendMessageCommand { get; }
         public ReactiveCommand<Unit, Unit> CreateRoomCommand { get; }
 
-        public DataItemRefList<ChatRoom> ChatRooms 
-        { 
-            get => chatRooms;
-            set
-            {
-                chatRooms = value;
-                this.RaisePropertyChanged(nameof(ChatRooms));
-            }
-        }
 
         public DataItemRefList<ChatMessage> CurrentChatMessages 
         { 
@@ -91,13 +82,6 @@ namespace ChatDesktopApp.ViewModels
             {
                 currentUser = value;
                 this.RaisePropertyChanged(nameof(CurrentUser));
-
-                if (currentUser != null)
-                {
-                    ChatRooms = currentUser.ChatRooms;
-                    if (SelectedChatRoom == null)
-                        SelectedChatRoom = ChatRooms.FirstOrDefault();
-                }
             }
         }
 

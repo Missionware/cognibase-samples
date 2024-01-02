@@ -99,18 +99,14 @@ namespace ChatDesktopApp.Views
                 _myUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
                 _myUser.LastLoginTime = DateTime.Now;
 
-                // if just created
-                if (_myUser.IsNew)
+                // try save or else retry
+                if (!App.Client.Save(_myUser).WasSuccessfull)
                 {
-                    // try save or else retry
-                    if (!App.Client.Save(_myUser).WasSuccessfull)
-                    {
-                        // log
-                        await _dialog.ShowError("Error", $"Error logging to chat app. User {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName} is not registered!");
-                        _myUser.Dispose();
-                        _myUser = null;
-                        return;
-                    }
+                    // log
+                    await _dialog.ShowError("Error", $"Error logging to chat app. User {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName} is not registered!");
+                    _myUser.Dispose();
+                    _myUser = null;
+                    return;
                 }
 
                 // set data source in main Avalonia thread
