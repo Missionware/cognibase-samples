@@ -16,31 +16,29 @@ namespace TodoApp.ViewModels
 {
     public class TodoItemEditVm : ReactiveObject
     {
-        private readonly IClient _client;
-        private readonly IAsyncDialogService _dialogService;
+        // Data
+        private readonly IClient _client;    // the client object manager
+        private readonly IAsyncDialogService _dialogService;    // the dialog service
 
-        public ToDoItem Item { get; set; }
-        public bool IsEdit { get; set; }
-        public bool IsNew { get; set; }
-        public ClientTxnInfo SaveResult { get; set; }
-        public Action CancelAction { get; set; }
-        public ReactiveCommand<Unit, Unit> SaveCommand { get; }
-        public ReactiveCommand<Unit, Unit> CancelCommand { get; }
+        public ToDoItem Item { get; set; }                          // The item instance whose properties are bound to the view
+        public Action CancelAction { get; set; }                    // The UI action that will be performed when cancel is clicked
+        public ReactiveCommand<Unit, Unit> SaveCommand { get; }     // The Save item command
+        public ReactiveCommand<Unit, Unit> CancelCommand { get; }   // The Cancel edit command
 
         public TodoItemEditVm(IClient client, ToDoItem item, IAsyncDialogService dialogService)
         {
+            // set
+            _client = client;
             _dialogService = dialogService;
+
+            // set the command
             SaveCommand = ReactiveCommand.CreateFromTask( o => Save());
             CancelCommand = ReactiveCommand.CreateFromTask(o => Cancel()); 
-            _client = client;
             Item = item;
-            if (Item == null)
-            {
-                Item = _client.CreateDataItem<ToDoItem>();
-                IsNew = true;
-            }
 
-            IsEdit = !IsNew;
+            // if item parameter is null then it means that it is a creation action so create a new item
+            if (Item == null)
+                Item = _client.CreateDataItem<ToDoItem>();
         }
 
 
@@ -49,24 +47,24 @@ namespace TodoApp.ViewModels
             // check changed
             if (Item != null && Item.IsChanged)
             {
-                // if cancel reset and close
+                // if cancel reset edits
                 _client.ResetAllMonitoredItems();
+
+                // just clear
                 Item = null;
-                CancelAction();
             }
-            else
-            {
-                // just close
-                CancelAction();
-            }
+
+            // close the view (navigate back to main view)
+            CancelAction();
         }
 
         private async Task Save()
         {
-            SaveResult = await _client.SaveAsync(Item);
+            // save
+            var saveResult = await _client.SaveAsync(Item);
 
             // if success close form
-            if (SaveResult.WasSuccessfull)
+            if (saveResult.WasSuccessfull)
                 CancelAction();
             else // else show message
                 await _dialogService.ShowError("Error", "Could not save data. Try again or cancel edit.");

@@ -51,6 +51,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.Logging.SerilogAddin\Missionware.SharedLib.Logging.SerilogAddin.csproj" />
 	  <ProjectReference Include="..\TodoDomain\TodoDomain.csproj" />
 	</ItemGroup>
 

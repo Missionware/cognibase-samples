@@ -37,15 +37,11 @@ namespace TodoApp.Views
         private readonly MainViewModel _vm;
 
         public ReactiveCommand<ToDoItem, Unit> AddEditItemCommand { get; }
-        public ReactiveCommand<ToDoItem, Unit> DeleteItemCommand { get; }
 
         public MainWindow()
         {
             Func<ToDoItem, Task> addEditItemFunc = item => OpenAddEditItemView(item);
             AddEditItemCommand = ReactiveCommand.CreateFromTask(addEditItemFunc);
-
-            Func<ToDoItem, Task> deleteItemFunc = item => DeleteItem(item);
-            DeleteItemCommand = ReactiveCommand.CreateFromTask(deleteItemFunc);
 
             InitializeComponent();
 
@@ -98,10 +94,17 @@ namespace TodoApp.Views
 
         protected override async void OnOpened(EventArgs e)
         {
+            // call base
             base.OnOpened(e);
 
+            // create startup helper
             _startupHelper = new AvaloniaStartupHelper(this, App.Client);
+
+            // create a new Auth dialog view model that will be used by the standard Avalonia login window and
+            // setting the domain and hardcoded username/password (only for simplicity)
             _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
+
+            // set the quit and data load delegates
             _startupHelper.QuitAction = () => Close();
             _startupHelper.DataLoadAction = () =>
             {
@@ -116,46 +119,28 @@ namespace TodoApp.Views
                 });
             };
 
+            // show the auth dialog window
             await _startupHelper.ShowAuthDialog().ConfigureAwait(false);
         }
 
         public async Task OpenAddEditItemView(ToDoItem item)
         {
+            // create the edit view View Model
             var itemVm = new TodoItemEditVm(App.Client, item, _dialog);
+
+            // create the Edit View 
             var itemView = new TodoEditView();
+
+            // set the cancel action to be the navigation back to the main view
             itemVm.CancelAction = () => Content = mainView;
+
+            // set the Data Context to the viewmodel
             itemView.DataContext = itemVm;
+
+            // navigate to the edit view
             Content = itemView;
         }
 
-        private async Task DeleteItem(ToDoItem item)
-        {
-            if (item != null)
-            {
-                // confirm deletion
-                AsyncDialogResult result = await _dialog.AskConfirmation("Delete Item?",
-                    $"Do you want to Proceed?");
-                if (result == AsyncDialogResult.NotConfirmed)
-                    return;
 
-                // mark for deletion
-                item.MarkForDeletion();
-
-                // save
-                ClientTxnInfo saveResult = await App.Client.SaveAsync();
-
-                // if not success unmark 
-                if (!saveResult.WasSuccessfull)
-                {
-                    await _dialog.ShowError("Error", "Could not delete Item.");
-                    item.UnMarkForDeletion();
-                }
-            }
-            else
-            {
-                // log
-                await _dialog.ShowMessage("Info", "Nothing is selected");
-            }
-        }
     }
 }
