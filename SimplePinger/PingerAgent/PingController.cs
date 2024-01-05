@@ -30,7 +30,7 @@ namespace PingerAgent
         private PingerOptions _settings; // the settings
         private readonly List<PingHistoryItem> newHistoryItemsToSave = new(); // cache any new history items
 
-        private readonly int retentionCheckInterval = 30; // Inverval (seconds) to check for deleting old history items
+        private readonly int retentionCheckInterval = 30; // Interval (seconds) to check for deleting old history items
 
         // keep a static App instance to also have easy access to the ClientObjectManager (_Client)
         // this could be also hosted in an IoC container as singleton
@@ -139,7 +139,7 @@ namespace PingerAgent
                             item.MarkForDeletion();
                     }
 
-                    // lock to prevent saving and getting "half" changes
+                    // lock to prevent getting "half" changes when changing
                     lock (_comLockObject)
                     {
                         // save all
@@ -185,7 +185,7 @@ namespace PingerAgent
                 // mark
                 device.Result.LastPingTime = time;
 
-                // create new history item
+                // create new history item and add it to list for saving
                 PingHistoryItem? historyItem = App.Client.CreateDataItem<PingHistoryItem>();
                 historyItem.DeviceId = device.Id;
                 historyItem.Time = device.Result.LastPingTime;

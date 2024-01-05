@@ -51,6 +51,7 @@ namespace ChatConsoleApp
             // Initialize Security PROFILE
             cApp.InitializeApplicationSecurity(client, ref clientSettings);
 
+            // set the chat controller
             _controller = new ChatController(cApp);
 
             //

@@ -73,7 +73,7 @@ namespace PingerAgent
             // call controller start
             controller.Start();
 
-            _authManager.LoginAsync("TestDev", "user1", "user1");
+            _authManager.LoginAsync("Basic", "user1", "user1");
         }
     }
 }
