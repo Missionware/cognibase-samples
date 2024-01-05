@@ -20,7 +20,7 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase" Version="0.7.23" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.7.23" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.26" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.26" />
 	</ItemGroup>
 </Project>
