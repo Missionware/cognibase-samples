@@ -30,10 +30,16 @@
                 <ListBox ItemsSource="{Binding CurrentUser.ChatRooms}" SelectedItem="{Binding SelectedChatRoom}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
+							<Grid ColumnDefinitions="*, 50">
                                 <TextBlock Margin="4"
                                            Text="{Binding Name}" />
-                            </StackPanel>
+								<Button Grid.Column="1" Background="Transparent"
+                                    Command="{Binding $parent[ItemsControl].DataContext.LeaveRoomCommand}"
+                                    CommandParameter="{Binding}" HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Left" ToolTip.Tip="Leave Room">
+									x
+								</Button>
+                            </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -41,7 +47,7 @@
         </Grid>
         <Grid RowDefinitions="*,100">
             <ScrollViewer VerticalScrollBarVisibility="Visible">
-                <ListBox ItemsSource="{Binding CurrentChatMessages}">
+                <ListBox ItemsSource="{Binding SelectedChatRoom.Messages}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

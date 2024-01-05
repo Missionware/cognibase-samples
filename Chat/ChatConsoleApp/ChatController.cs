@@ -16,7 +16,7 @@ namespace ChatConsoleApp
         // data
         private volatile bool _isAborted;       // to check if it is aborted
         private volatile bool _isInitialized;   // to check if the data are initialized
-        private User _myUser;                   // the user object that represents the current user
+        private User _currentUser;                   // the user object that represents the current user
         private ChatRoom _currentRoom;          // the current chat room joined
         private ChatMessage _lastMessageSent;   // the last message sent
         private string _prompt;                 // the console prompt
@@ -60,33 +60,33 @@ namespace ChatConsoleApp
                     var myusername = App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName;
 
                     // get or create user
-                    _myUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
-                    _myUser.LastLoginTime = DateTime.Now;
+                    _currentUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
+                    _currentUser.LastLoginTime = DateTime.Now;
 
                     // if just created
-                    if (_myUser.IsNew)
+                    if (_currentUser.IsNew)
                     {
                         // try save or else retry
-                        if (!App.Client.Save(_myUser).WasSuccessfull)
+                        if (!App.Client.Save(_currentUser).WasSuccessfull)
                         {
                             // log
                             ConsoleManager.WriteLine($"{DateTime.Now:T} | Error logging to chat app. User {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName} is not registered!");
-                            _myUser.Dispose();
-                            _myUser = null;
+                            _currentUser.Dispose();
+                            _currentUser = null;
                             continue;
                         }
                         else
                         {
                             // log created
-                            ConsoleManager.WriteLine($"{_myUser.LastLoginTime} | Welcome {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName}");
+                            ConsoleManager.WriteLine($"{_currentUser.LastLoginTime} | Welcome {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName}");
                         }
                     }
                     else
                     {
-                        if (App.Client.Save(_myUser).WasSuccessfull)
+                        if (App.Client.Save(_currentUser).WasSuccessfull)
                         {
                             // log
-                            ConsoleManager.WriteLine($"{_myUser.LastLoginTime:T} | Welcome {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName}");
+                            ConsoleManager.WriteLine($"{_currentUser.LastLoginTime:T} | Welcome {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName}");
                         }
                     }
 
@@ -101,7 +101,7 @@ namespace ChatConsoleApp
             }
 
             // set the prompt
-            _prompt = $"<{_myUser.Username}> ";
+            _prompt = $"<{_currentUser.Username}> ";
 
             // run
             await Task.Run(() => MainLoop());
@@ -134,21 +134,41 @@ namespace ChatConsoleApp
                         // create and save the room
                         curRoom = App.Client.CreateDataItem<ChatRoom>();
                         curRoom.Name = roomName;
-                        curRoom.Users.Add(_myUser); // the reverse reference will be automtically created
+                        curRoom.Users.Add(_currentUser); // the reverse reference will be automtically created
 
                         // save
                         var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, curRoom);
 
-                        // log
-                        ConsoleManager.WriteLine($"{DateTime.Now:T} | Room {roomName} created");
+                        if(response.WasSuccessfull)
+                        {
+                            // log
+                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Room {roomName} created");
+                        }
+                        else
+                        {
+                            // reset dataitems
+                            App.Client.ResetAllMonitoredItems();
+
+                            // log
+                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Error: Could not create room {roomName}");
+                        }
                     }
-                    else if (!curRoom.Users.Contains(_myUser)) // if room not contains user add the user to the room
+                    else if (!curRoom.Users.Contains(_currentUser)) // if room not contains user add the user to the room
                     {
                         // add
-                        curRoom.Users.Add(_myUser);
+                        curRoom.Users.Add(_currentUser);
 
                         // save
                         var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, curRoom);
+
+                        if (!response.WasSuccessfull)
+                        {
+                            // log
+                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Error: Could not join room {roomName}");
+
+                            // return
+                            return;
+                        }
                     }
 
                     // cleanup previous event handler if existed
@@ -162,7 +182,42 @@ namespace ChatConsoleApp
                     _currentRoom.Messages.DataItemListSaved += Messages_DataItemListSaved;
 
                     // log
-                    ConsoleManager.WriteLine($"{DateTime.Now:T} | - {_myUser.Username} - joined room {roomName}");
+                    ConsoleManager.WriteLine($"{DateTime.Now:T} | - {_currentUser.Username} - joined room {roomName}");
+                }
+                else if (line.StartsWith("/leave ", StringComparison.OrdinalIgnoreCase)) // check if it is a leave command
+                {
+                    // get the room name
+                    var roomName = line.Replace("/leave", "", StringComparison.OrdinalIgnoreCase).Trim();
+
+                    // get chatroom of user if exists
+                    var curUserRoom = _currentUser.ChatRooms.ToList().FirstOrDefault(o => o.Name == roomName);
+
+                    // check if found
+                    if (curUserRoom != null)
+                    {
+                        // remove user
+                        _currentUser.ChatRooms.Remove(curUserRoom);
+
+                        // save
+                        var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, _currentUser, curUserRoom);
+
+                        // check
+                        if (!response.WasSuccessfull)
+                        {
+                            // log
+                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Error: Could not leave room {roomName}");
+                        }
+                        else
+                        {
+                            // log
+                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Successfully left room {roomName}");
+                        }
+                    }
+                    else
+                    {
+                        // log
+                        ConsoleManager.WriteLine($"{DateTime.Now:T}  | Error: Could not find room {roomName} to leave");
+                    }
                 }
                 else // input is a standard message
                 {
@@ -180,11 +235,18 @@ namespace ChatConsoleApp
                         newMsg.Text = line;
                         newMsg.CreatedTime = DateTime.Now;
                         _currentRoom.Messages.Add(newMsg);
-                        _myUser.Messages.Add(newMsg); // set the author - reverse reference is automatically added
+                        _currentUser.Messages.Add(newMsg); // set the author - reverse reference is automatically added
                         _lastMessageSent = newMsg; // cache it
 
                         // save
-                        var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, newMsg, _myUser, _currentRoom);
+                        var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, newMsg, _currentUser, _currentRoom);
+
+                        // check
+                        if (!response.WasSuccessfull)
+                        {
+                            // log
+                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Error: Could not send message");
+                        }
                     }
                 }
             }

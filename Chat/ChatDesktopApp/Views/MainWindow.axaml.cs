@@ -26,7 +26,7 @@ namespace ChatDesktopApp.Views
         private AvaloniaStartupHelper _startupHelper;
         private readonly AvaloniaDialog _dialog = new();
         private readonly MainViewModel _vm;
-        private User _myUser;                   // the user object that represents the current user
+        private User _currentUser;                   // the user object that represents the current user
 
         public MainWindow()
         {
@@ -96,16 +96,16 @@ namespace ChatDesktopApp.Views
                 var myusername = App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName;
 
                 // get or create user
-                _myUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
-                _myUser.LastLoginTime = DateTime.Now;
+                _currentUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
+                _currentUser.LastLoginTime = DateTime.Now;
 
                 // try save or else retry
-                if (!App.Client.Save(_myUser).WasSuccessfull)
+                if (!App.Client.Save(_currentUser).WasSuccessfull)
                 {
                     // log
-                    await _dialog.ShowError("Error", $"Error logging to chat app. User {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName} is not registered!");
-                    _myUser.Dispose();
-                    _myUser = null;
+                    await _dialog.ShowError("Error", $"Error logging to chat app. User {myusername} is not registered!");
+                    _currentUser.Dispose();
+                    _currentUser = null;
                     return;
                 }
 
@@ -113,7 +113,7 @@ namespace ChatDesktopApp.Views
                 Dispatcher.UIThread.Invoke(() =>
                 {
                     // set collection in your 
-                    _vm.CurrentUser = _myUser;
+                    _vm.CurrentUser = _currentUser;
                     mainView.DataContext = _vm;
                 });
             };

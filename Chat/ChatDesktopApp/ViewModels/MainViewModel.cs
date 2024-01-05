@@ -16,50 +16,36 @@ using ReactiveUI;
 
 namespace ChatDesktopApp.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ReactiveObject
     {
         IClient _client;
-        private ChatRoom selectedChatRoom;
-        private string newMessageText;
-        private string newRoomText;
-        private DataItemRefList<ChatMessage> currentChatMessages;
-        private DataItemRefList<ChatRoom> chatRooms;
-        private User currentUser;
+        private ChatRoom _selectedChatRoom;
+        private string _newMessageText;
+        private string _newRoomText;
+        private User _currentUser;
         private readonly IAsyncDialogService _dialogService;
 
-        public ReactiveCommand<Unit, Unit> SendMessageCommand { get; }
-        public ReactiveCommand<Unit, Unit> CreateRoomCommand { get; }
-
-
-        public DataItemRefList<ChatMessage> CurrentChatMessages 
-        { 
-            get => currentChatMessages;
-            set
-            {
-                currentChatMessages = value;
-                this.RaisePropertyChanged(nameof(CurrentChatMessages));
-            }
-        }
+        public ReactiveCommand<Unit, Unit> SendMessageCommand { get; }   // The send message command bound to send button
+        public ReactiveCommand<Unit, Unit> CreateRoomCommand { get; }    // The create room command bound to create/join button
+        public ReactiveCommand<ChatRoom, Unit> LeaveRoomCommand { get; }   // The leave room bound to each item
 
         public ChatRoom SelectedChatRoom 
         { 
             get => 
-                selectedChatRoom;
+                _selectedChatRoom;
             set
             {
-                selectedChatRoom = value;
+                _selectedChatRoom = value;
                 this.RaisePropertyChanged(nameof(SelectedChatRoom));
-                if(selectedChatRoom != null)
-                    CurrentChatMessages = selectedChatRoom.Messages;
             }
         }
 
         public string NewMessageText
         {
-            get => newMessageText;
+            get => _newMessageText;
             set
             {
-                newMessageText = value;
+                _newMessageText = value;
                 this.RaisePropertyChanged(nameof(NewMessageText));
             }
         }
@@ -67,20 +53,20 @@ namespace ChatDesktopApp.ViewModels
 
         public string NewRoomText
         {
-            get => newRoomText;
+            get => _newRoomText;
             set
             {
-                newRoomText = value;
+                _newRoomText = value;
                 this.RaisePropertyChanged(nameof(NewRoomText));
             }
         }
 
         public User CurrentUser 
         { 
-            get => currentUser;
+            get => _currentUser;
             set
             {
-                currentUser = value;
+                _currentUser = value;
                 this.RaisePropertyChanged(nameof(CurrentUser));
             }
         }
@@ -94,6 +80,10 @@ namespace ChatDesktopApp.ViewModels
 
             SendMessageCommand = ReactiveCommand.CreateFromTask(()=>SendMessage());
             CreateRoomCommand = ReactiveCommand.CreateFromTask(() => CreateRoom());
+
+            // set leave room command
+            Func<ChatRoom, Task> leaveRoomFunc = item => LeaveRoom(item);
+            LeaveRoomCommand = ReactiveCommand.CreateFromTask(leaveRoomFunc);
         }
 
         private async Task CreateRoom()
@@ -131,7 +121,10 @@ namespace ChatDesktopApp.ViewModels
                 // if success close form
                 if (response != null && !response.WasSuccessfull)
                 {
+                    // reset items
                     _client.ResetAllMonitoredItems();
+                    
+                    // notify user
                     await _dialogService.ShowError("Error", "Could not save data. Try again or cancel edit.");
                 }
                 else
@@ -139,7 +132,42 @@ namespace ChatDesktopApp.ViewModels
                     // after save reset the textbox
                     NewRoomText = null;
                 }
+            }
+        }
 
+        private async Task LeaveRoom(ChatRoom item)
+        {
+            // check the item is not null
+            if (item != null)
+            {
+                // confirm deletion
+                AsyncDialogResult result = await _dialogService.AskConfirmation($"Leave Room {item.Name}?",
+                    $"Do you want to Proceed?");
+                if (result == AsyncDialogResult.NotConfirmed)
+                    return;
+
+                // cache selected
+                var curSelected = SelectedChatRoom;
+
+                // remove user
+                _currentUser.ChatRooms.Remove(item);
+
+                // save
+                ClientTxnInfo saveResult = await _client.SaveAsync(item, _currentUser);
+
+                // if not success unmark and notify user for the failure
+                if (!saveResult.WasSuccessfull)
+                {
+                    // reset items
+                    _client.ResetAllMonitoredItems();
+
+                    // notify
+                    await _dialogService.ShowError("Error", $"Could not leave room {item.Name}.");
+                }
+
+                // check if it was selected and set as selected the first found
+                if(curSelected == item)
+                    SelectedChatRoom = _currentUser.ChatRooms.FirstOrDefault();
             }
         }
 
@@ -160,7 +188,10 @@ namespace ChatDesktopApp.ViewModels
                 // if success close form
                 if (!SaveResult.WasSuccessfull)
                 {
+                    // reset items
                     _client.ResetAllMonitoredItems();
+
+                    // notify user
                     await _dialogService.ShowError("Error", "Could not save data. Try again or cancel edit.");
                 }
                 else
