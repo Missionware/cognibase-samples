@@ -1,24 +1,21 @@
-# Cognibase Samples
+![image](https://github.com/Missionware/cognibase-samples/assets/1830368/224a3a16-7b1e-4737-84ee-f07185c5cf77)# Cognibase Samples
 
 This repository contains sample applications that demonstrate the capabilities of Cognibase.
 
-## Chat Application
+### ToDo App
 
-Learn how to create a minimal chat application.
+A simple ToDo application with a single Entity using Avalonia UI and ReactiveUI frameworks for the frontend. [Read more...](https://cognibase.com/docs/samples/todo-sample)
 
-1. Open Chat.sln solution in Visual Studio
-2. Build the solution
-3. Run or Debug the ChatServer
-4. Run or Debug as many ChatConsoleApps as you want
-5. To login use one of the preconfigured users that are in the app.config of the server (those accounts are there only for init, they are stored in db). You can use the same user in more than one console instances. Use the below:
-- Domain FQDN (<YourMachineName>): Basic
-- Domain (BASIC): Basic
-- User Name (<Yourusername>) : user1 // or user2, ...
-- Role Name ():   // click enter, just leave it empty
-- Password (): user1 // or user2, ... 
-- Save login (yes/no) ? (no): y
-6. Then issue a join room command, eg "/join CognibaseFuns"
-7. Now you are ready to exchange chat messages with other peers of your room
-Cognibase Sample Applications Repository
+![](https://cognibase.com/assets/images/todo-app-items-f5c05f55bc4e3b4e5470b58226f126e2.png)
 
-More info in 
+### Chat App
+
+A minimal messaging application that demonstrates the usage of relationshiphs between Entities and the buildiong of both GUI and console apps. [Read more...](https://cognibase.com/docs/samples/chat-sample)
+
+![](https://cognibase.com/assets/images/chatapp-write-message-5ee1729f24e9b753ad127c1bc8ec8c17.png)
+
+### Pinger App
+
+A minimal IoT / monitoring application that demonstrates the building of additional backend service for backend processing. [Read more...](https://cognibase.com/docs/samples/pinger-sample)
+
+![](https://cognibase.com/assets/images/pinger-app-pinging3-28ec8cbc388f5e1799cd18bb56c24bd5.png)
