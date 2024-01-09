@@ -1,27 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<AnalysisMode>All</AnalysisMode>
-		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<EnableNETAnalyzers>True</EnableNETAnalyzers>
-	</PropertyGroup>
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
 		<OutputType>Exe</OutputType>
 		<RootNamespace>PingerMauiApp</RootNamespace>
 		<UseMaui>true</UseMaui>
+		<UseMauiEssentials>true</UseMauiEssentials>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
 		<ApplicationTitle>PingerMauiApp</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.pingermauiapp</ApplicationId>
-		<ApplicationIdGuid>cc2cce35-7a5e-4995-8a4b-fe4ed8214e2b</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -33,19 +37,22 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<DefaultLanguage>en-US</DefaultLanguage>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<AndroidResource Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-		<AndroidResource Include="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<AndroidResource Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -55,35 +62,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiFont Remove="Resources\Fonts\OpenSans-Regular.ttf" />
-	  <MauiFont Remove="Resources\Fonts\OpenSans-Semibold.ttf" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\dotnet_bot.svg" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="Resources\Images\ajax_loader.gif" />
 	  <None Remove="Resources\Images\check_circle2.png" />
 	  <None Remove="Resources\Images\info_empty.png" />
 	  <None Remove="Resources\Images\warning_triangle.png" />
+	  <None Remove="Resources\Raw\app.config" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AndroidResource Include="Resources\Fonts\OpenSans-Regular.ttf" />
-	  <AndroidResource Include="Resources\Fonts\OpenSans-Semibold.ttf" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc1.2" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-rc1.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.6" />
 	</ItemGroup>
-
-
 	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
@@ -103,38 +97,32 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase" Version="0.7.26" />
-		<PackageReference Include="Missionware.Serialization" Version="0.7.26" />
-		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.26" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.26" />
-		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.26" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.7.26" />
-		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.26" />
-		<PackageReference Include="Missionware.SharedLib.UI.Maui" Version="0.7.26" />
-		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.26" />
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.27" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.27" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.27" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.27" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.27" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.7.27" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.27" />
+		<PackageReference Include="Missionware.SharedLib.UI.Maui" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.27" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
 	  <ProjectReference Include="..\PingerUiCommon\PingerUiCommon.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiAsset Update="Resources\Raw\app.config">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </MauiAsset>
-	</ItemGroup>
-	<ItemGroup>
 	  <MauiXaml Update="LoaderPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
-
 </Project>
