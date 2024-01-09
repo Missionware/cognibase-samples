@@ -34,9 +34,7 @@ namespace PingerMauiApp
 
         public App()
         {
-            var x = CryptoManager.ReadStringFromFileResource(typeof(DataItem).Assembly, "FreePlan-LRK.txt", false);
-
-            InitializeComponent();
+           InitializeComponent();
 
             MainPage = new AppShell();
         }
@@ -47,8 +45,6 @@ namespace PingerMauiApp
         {
             var window = base.CreateWindow(activationState);
             ApplicationManager.MainAppWindow = window;
-
-            
 
             window.Created += (s, e) =>
             {
