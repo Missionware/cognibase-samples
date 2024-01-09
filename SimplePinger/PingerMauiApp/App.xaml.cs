@@ -1,5 +1,6 @@
 ﻿using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Config;
+using Missionware.Cognibase.Library;
 using Missionware.Cognibase.Security.Identity.Domain.System;
 using Missionware.Cognibase.UI.Common;
 using Missionware.Cognibase.UI.Common.ViewModels;
@@ -7,6 +8,8 @@ using Missionware.Cognibase.UI.Maui;
 using Missionware.Cognibase.UI.Maui.Dialogs;
 using Missionware.ConfigLib;
 using Missionware.SharedLib;
+using Missionware.SharedLib.Cryptography;
+using Missionware.SharedLib.Licensing;
 
 using PingerDomain.System;
 
@@ -16,13 +19,11 @@ using Device = PingerDomain.Entities.Device;
 
 namespace PingerMauiApp
 {
-    public partial class MauiMobileApp : Application
+    public partial class App : Application
     {
         private static volatile bool _isClientInitialized;
         private static volatile bool _isLoadingPerformed;
         private readonly bool _isAborted;
-
-        private readonly MainPage _MainPage;
 
         private SimpleAuthenticationPage _authenticateWindow;
         private SimpleAuthenticationManager _authManager;
@@ -31,20 +32,23 @@ namespace PingerMauiApp
         private LoaderPage _loader;
         private MainViewModel _vm;
 
-        public MauiMobileApp()
+        public App()
         {
+            var x = CryptoManager.ReadStringFromFileResource(typeof(DataItem).Assembly, "FreePlan-LRK.txt", false);
+
             InitializeComponent();
 
-            _MainPage = new MainPage();
-
-            MainPage = _MainPage;
+            MainPage = new AppShell();
         }
 
         public static MauiCognibaseApplication MauiCognibaseApplication { get; set; }
 
         protected override Window CreateWindow(IActivationState activationState)
         {
-            Window window = base.CreateWindow(activationState);
+            var window = base.CreateWindow(activationState);
+            ApplicationManager.MainAppWindow = window;
+
+            
 
             window.Created += (s, e) =>
             {
@@ -133,7 +137,7 @@ namespace PingerMauiApp
             // RUN
             //
 
-            ApplicationManager.MainAppWindow = _MainPage;
+            
             _isClientInitialized = true;
         }
 
@@ -145,10 +149,10 @@ namespace PingerMauiApp
                     _isLoadingPerformed = true;
                     _ = MainThread.InvokeOnMainThreadAsync(async () =>
                     {
-                        _ = await MainPage.Navigation.PopModalAsync().ConfigureAwait(false);
+                        _ = await MainPage.Navigation.PopModalAsync().ConfigureAwait(true);
 
                         _loader = new LoaderPage();
-                        await MainPage.Navigation.PushModalAsync(_loader).ConfigureAwait(false);
+                        await MainPage.Navigation.PushModalAsync(_loader).ConfigureAwait(true);
 
                         _ = Task.Factory.StartNew(async () =>
                         {
@@ -202,7 +206,7 @@ namespace PingerMauiApp
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
                     MainPage.BindingContext = _vm;
-                    _ = await MainPage.Navigation.PopModalAsync().ConfigureAwait(false);
+                    _ = await MainPage.Navigation.PopModalAsync().ConfigureAwait(true);
                 }).ConfigureAwait(false);
 
                 break;

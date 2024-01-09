@@ -8,9 +8,9 @@ namespace PingerMauiApp
     {
         public static MauiApp CreateMauiApp()
         {
-            MauiAppBuilder builder = MauiApp.CreateBuilder();
+            var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiApp<MauiMobileApp>()
+                .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -18,7 +18,7 @@ namespace PingerMauiApp
                 });
 
 #if DEBUG
-            builder.Logging.AddDebug();
+    		builder.Logging.AddDebug();
 #endif
             builder.UseSkiaSharp();
             return builder.Build();
