@@ -1,4 +1,4 @@
-![image](https://github.com/Missionware/cognibase-samples/assets/1830368/224a3a16-7b1e-4737-84ee-f07185c5cf77)# Cognibase Samples
+# Cognibase Samples
 
 This repository contains sample applications that demonstrate the capabilities of Cognibase.
 
