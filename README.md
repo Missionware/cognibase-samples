@@ -10,7 +10,7 @@ A simple ToDo application with a single Entity using Avalonia UI and ReactiveUI 
 
 ### Chat App
 
-A minimal messaging application that demonstrates the usage of relationshiphs between Entities and the buildiong of both GUI and console apps. [Read more...](https://cognibase.com/docs/samples/chat-sample)
+A minimal messaging application that demonstrates the usage of relationshiphs between Entities and the building of both GUI and console apps. [Read more...](https://cognibase.com/docs/samples/chat-sample)
 
 ![](https://cognibase.com/assets/images/chatapp-write-message-5ee1729f24e9b753ad127c1bc8ec8c17.png)
 
