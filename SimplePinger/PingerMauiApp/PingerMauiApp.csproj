@@ -45,10 +45,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<AndroidResource Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<AndroidResource Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -62,11 +62,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiFont Remove="Resources\Fonts\OpenSans-Regular.ttf" />
+	  <MauiFont Remove="Resources\Fonts\OpenSans-Semibold.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\Images\ajax_loader.gif" />
 	  <None Remove="Resources\Images\check_circle2.png" />
 	  <None Remove="Resources\Images\info_empty.png" />
 	  <None Remove="Resources\Images\warning_triangle.png" />
 	  <None Remove="Resources\Raw\app.config" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Include="Resources\Fonts\OpenSans-Regular.ttf" />
+	  <AndroidResource Include="Resources\Fonts\OpenSans-Semibold.ttf" />
 	</ItemGroup>
 
 	<ItemGroup>
