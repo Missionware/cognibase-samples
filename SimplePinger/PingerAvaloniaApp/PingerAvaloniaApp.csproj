@@ -62,24 +62,24 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase" Version="0.7.27" />
-		<PackageReference Include="Missionware.Serialization" Version="0.7.27" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.27" />
-		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.27" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.UI.Avalonia" Version="0.7.27" />
-		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.27" />
-		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.27" />
-		<PackageReference Include="Missionware.SharedLib.UI.Avalonia" Version="0.7.27" />
-		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.27" />
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.37" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.37" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.37" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.37" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.UI.Avalonia" Version="0.7.37" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.37" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.37" />
+		<PackageReference Include="Missionware.SharedLib.UI.Avalonia" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.37" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />

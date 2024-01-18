@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingerWpfApp", "PingerWpfAp
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "DockerProject\docker-compose.dcproj", "{0C0D0C0D-D6CC-43DC-A6FA-E1BAEF9C0FE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingerMauiApp", "PingerMauiApp2\PingerMauiApp.csproj", "{A28A67EA-DC60-49F6-B704-CBBD0EB71859}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingerMauiApp", "PingerMauiApp\PingerMauiApp.csproj", "{A28A67EA-DC60-49F6-B704-CBBD0EB71859}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
