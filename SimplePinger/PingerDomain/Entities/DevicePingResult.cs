@@ -8,6 +8,17 @@ namespace PingerDomain.Entities
     [PersistedClass]
     public class DevicePingResult : DataItem
     {
+        public DevicePingResult() : base()
+        {
+            this.PropertyChanged += DevicePingResult_PropertyChanged;
+        }
+
+        private void DevicePingResult_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ((e.PropertyName == nameof(Value) || e.PropertyName == nameof(LastPingTime)) && DeviceRef != null)
+                DeviceRef.raisePingResultChanges();
+        }
+
         [PersistedProperty(IdOrder = 1, AutoValue = AutoValue.Identity)]
         public long Id { get => getter<long>(); set => setter(value); }
 
@@ -17,13 +28,5 @@ namespace PingerDomain.Entities
         [PersistedProperty] public int Value { get => getter<int>(); set => setter(value); }
 
         [PersistedProperty] public DateTime LastPingTime { get => getter<DateTime>(); set => setter(value); }
-
-        protected override void OnPropertyChanged(object source, PropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(source, e);
-
-            if (DeviceRef != null && (e.PropertyName == nameof(Value) || e.PropertyName == nameof(LastPingTime)))
-                DeviceRef.raisePingResultChanges();
-        }
     }
 }

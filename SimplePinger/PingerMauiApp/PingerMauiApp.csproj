@@ -70,8 +70,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.3" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc1.2" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-rc1.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
@@ -97,24 +98,24 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase" Version="0.7.37" />
-		<PackageReference Include="Missionware.Serialization" Version="0.7.37" />
-		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.37" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.37" />
-		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.37" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.7.37" />
-		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.37" />
-		<PackageReference Include="Missionware.SharedLib.UI.Maui" Version="0.7.37" />
-		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.37" />
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.44" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.44" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.44" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.44" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.7.44" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.7.44" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.44" />
+		<PackageReference Include="Missionware.SharedLib.UI.Maui" Version="0.7.44" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.44" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />

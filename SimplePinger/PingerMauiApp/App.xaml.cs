@@ -21,7 +21,6 @@ namespace PingerMauiApp
 {
     public partial class App : Application
     {
-        private static volatile bool _isClientInitialized;
         private static volatile bool _isLoadingPerformed;
         private readonly bool _isAborted;
 
@@ -48,7 +47,11 @@ namespace PingerMauiApp
 
             window.Created += (s, e) =>
             {
-                initialize();
+                // set sync context
+                MauiCognibaseApplication.RegisterMainSynchronizationContext();
+
+                ApplicationManager.MainAppWindow = this;
+
                 _dialog = new MauiDialog();
                 _vm = new MainViewModel(MauiCognibaseApplication.Client, _dialog);
                 _authManager = new SimpleAuthenticationManager(MauiCognibaseApplication.Client);
@@ -66,76 +69,11 @@ namespace PingerMauiApp
                 });
 
                 _ = MainPage.Navigation.PushModalAsync(_authenticateWindow);
-
-                _ = MainThread.InvokeOnMainThreadAsync(async () =>
-                    MauiCognibaseApplication.ApplicationFeatures.SynchronizationContext =
-                        await Dispatcher.GetSynchronizationContextAsync().ConfigureAwait(false));
             };
 
             return window;
         }
 
-        private void initialize()
-        {
-            if (_isClientInitialized)
-                return;
-
-            //
-            // SETTINGS SETUP
-            //
-
-            // Read client settings
-            using Stream fileStream = FileSystem.Current.OpenAppPackageFileAsync("app.config").Result;
-            string line;
-            var lines = new List<string>();
-
-            using (var sr = new StreamReader(fileStream))
-            {
-                while ((line = sr.ReadLine()) != null)
-                    lines.Add(line);
-            }
-
-            string configText = string.Join(Environment.NewLine, lines);
-
-            SettingsManager settings = ConfigBuilder.Create().FromXmlConfigText(configText);
-
-            // Get proper SECTION
-            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
-
-            // Set to CUSTOM Connect Workflow
-            clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
-
-            //
-            // APPLICATION SETUP
-            //
-
-            // Initialize the correct (Avalonia) COGNIBASE Application through the Application Manager 
-            MauiCognibaseApplication =
-                ApplicationManager.InitializeAsMainApplication(
-                    new MauiCognibaseApplication(new MauiCognibaseApplicationFeatures()));
-
-            // Initializes a Client Object Manager with the settings from configuration
-            ClientObjMgr client = ClientBuilder<MauiCognibaseApplication>
-                .CreateFor(MauiCognibaseApplication)
-                .WithSettings(clientSettings)
-                .WithDomainFactory<PingerFactory>()
-                .WithDomainFactory<IdentityFactory>()
-                .Build();
-
-            ////
-            //// SECURITY SETUP
-            ////
-
-            //// Initialize Security PROFILE
-            //_App.initializeApplicationSecurity(client, ref clientSettings);
-
-            //
-            // RUN
-            //
-
-            
-            _isClientInitialized = true;
-        }
 
         private void _authManager_StateChanged(object sender, LoginStateEventArgs e)
         {
