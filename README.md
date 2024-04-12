@@ -19,3 +19,8 @@ A minimal messaging application that demonstrates the usage of relationshiphs be
 A minimal IoT / monitoring application that demonstrates the building of additional backend service for backend processing. [Read more...](https://cognibase.com/docs/samples/pinger-sample)
 
 ![](https://cognibase.com/assets/images/pinger-app-pinging3-28ec8cbc388f5e1799cd18bb56c24bd5.png)
+
+
+# Notes
+
+Whenever you get an updated version, please delete the Database folder from the Server and recreate your objects.
