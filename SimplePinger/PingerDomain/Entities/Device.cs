@@ -30,7 +30,7 @@ namespace PingerDomain.Entities
                 if (threshold < 10)
                     threshold = 10;
 
-                if (DateTime.Now - TimeSpan.FromSeconds(threshold) > Result.LastPingTime)
+                if (Result == null || DateTime.Now - TimeSpan.FromSeconds(threshold) > Result.LastPingTime)
                     return 0;
                 return Result.Value;
             }
