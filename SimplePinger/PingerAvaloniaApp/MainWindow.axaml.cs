@@ -50,14 +50,14 @@ namespace PingerAvaloniaApp
             // SETTINGS SETUP
             //
 
-            // Read client settings
-            SettingsManager settings = ConfigBuilder.Create().FromAppConfigFile();
+            // Get SETTINGS Manager
+            SettingsManager settingsManager = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
+            ClientSetupSettings clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
 
             // Set to CUSTOM Connect Workflow
-            clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
+            clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
 
             //
             // APPLICATION SETUP
@@ -68,7 +68,7 @@ namespace PingerAvaloniaApp
                 new AvaloniaApplication(new AvaloniaApplicationFeatures()));
 
             // Initializes a Client Object Manager with the settings from configuration
-            var client = ClientObjMgr.Initialize(App, ref clientSettings);
+            var client = ClientObjMgr.Initialize(App, ref clientSetupSettings);
 
             // Registers domains through Domain Factory classes that reside in Domain assembly
             _ = client.RegisterDomainFactory<PingerFactory>();
@@ -79,7 +79,7 @@ namespace PingerAvaloniaApp
             //
 
             // Initialize Security PROFILE
-            _ = App.InitializeApplicationSecurity(client, ref clientSettings);
+            _ = App.InitializeApplicationSecurity(client, ref clientSetupSettings);
 
             //
             // RUN

@@ -56,13 +56,14 @@ namespace PingerMauiApp
                 Configuration.SetupMainSettingsFromText("", "", configText);
             }
 
-            SettingsManager settings = ConfigBuilder.Create().FromXmlConfigText(configText);
+            // Get SETTINGS Manager
+            SettingsManager settingsManager = ConfigBuilder.Create().FromXmlConfigText(configText);
 
             // Get proper SECTION
-            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
+            ClientSetupSettings clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
 
             // Set to CUSTOM Connect Workflow
-            clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
+            clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
 
             //
             // APPLICATION SETUP
@@ -74,7 +75,7 @@ namespace PingerMauiApp
                     new MauiCognibaseApplication(new MauiCognibaseApplicationFeatures()));
 
             // Initializes a Client Object Manager with the settings from configuration
-            var client = ClientObjMgr.Initialize(App.MauiCognibaseApplication, ref clientSettings);
+            var client = ClientObjMgr.Initialize(App.MauiCognibaseApplication, ref clientSetupSettings);
 
             // Registers domains through Domain Factory classes that reside in Domain assembly
             _ = client.RegisterDomainFactory<PingerFactory>();
@@ -85,7 +86,7 @@ namespace PingerMauiApp
             //
 
             // Initialize Security PROFILE
-            _ = App.MauiCognibaseApplication.InitializeApplicationSecurity(client, ref clientSettings);
+            _ = App.MauiCognibaseApplication.InitializeApplicationSecurity(client, ref clientSetupSettings);
 
             //
             // RUN
