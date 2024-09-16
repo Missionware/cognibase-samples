@@ -17,11 +17,11 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase" Version="0.8.0" />
-		<PackageReference Include="Missionware.Serialization" Version="0.8.0" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.8.0" />
-		<PackageReference Include="Missionware.SharedLib.UI" Version="0.8.0" />
-		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.0" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.7.60" />
+		<PackageReference Include="Missionware.Serialization" Version="0.7.60" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.7.60" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.7.60" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.7.60" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
