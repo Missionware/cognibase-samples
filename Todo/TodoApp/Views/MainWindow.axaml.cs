@@ -53,28 +53,28 @@ namespace TodoApp.Views
             // Call base
             base.OnInitialized();
 
-            // Get SETTINGS Manager
-            SettingsManager settingsManager = ConfigBuilder.Create().FromAppConfigFile();
+            // Read client settings
+            SettingsManager settings = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientSetupSettings clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
+            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
 
             // Set to CUSTOM Connect Workflow
-            clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
+            clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
 
             // Initialize the correct (Avalonia) COGNIBASE Application through the Application Manager 
             App = ApplicationManager.InitializeAsMainApplication(
                 new AvaloniaApplication(new AvaloniaApplicationFeatures()));
 
             // Initializes a Client Object Manager with the settings from configuration
-            var client = ClientObjMgr.Initialize(App, ref clientSetupSettings);
+            var client = ClientObjMgr.Initialize(App, ref clientSettings);
 
             // Registers domains through Domain Factory classes
             _ = client.RegisterDomainFactory<TodoFactory>();
             _ = client.RegisterDomainFactory<IdentityFactory>();
 
             // Initialize Security PROFILE
-            _ = App.InitializeApplicationSecurity(client, ref clientSetupSettings);
+            _ = App.InitializeApplicationSecurity(client, ref clientSettings);
 
             // set the main app window
             ApplicationManager.MainAppWindow = this;

@@ -21,21 +21,21 @@ namespace ChatConsoleApp
             // SETTINGS SETUP
             //
 
-            // Get SETTINGS Manager
-            SettingsManager settingsManager = ConfigBuilder.Create().FromAppConfigFile();
+            // Read client settings
+            var settings = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientSetupSettings clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
+            var clientSettings = settings.GetSection<ClientSetupSettings>();
 
             //
             // APPLICATION SETUP
             //
 
             // Initialize the correct (Client) Cognibase Application through the Application Manager 
-            ClientApplication cApp = ApplicationManager.InitializeAsMainApplication(new ClientApplication());
+            var cApp = ApplicationManager.InitializeAsMainApplication(new ClientApplication());
 
             // Initializes a Client Object Manager with the settings from configuration
-            var client = ClientObjMgr.Initialize(cApp, ref clientSetupSettings);
+            var client = ClientObjMgr.Initialize(cApp, ref clientSettings);
 
             // Registers domains through Domain Factory classes that reside in Domain assembly
             client.RegisterDomainFactory<IdentityFactory>();
@@ -49,7 +49,7 @@ namespace ChatConsoleApp
             //
 
             // Initialize Security PROFILE
-            cApp.InitializeApplicationSecurity(client, ref clientSetupSettings);
+            cApp.InitializeApplicationSecurity(client, ref clientSettings);
 
             // set the chat controller
             _controller = new ChatController(cApp);
