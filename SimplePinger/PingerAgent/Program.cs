@@ -20,14 +20,14 @@ namespace PingerAgent
             // SETTINGS SETUP
             //
 
-            // Get SETTINGS Manager
-            SettingsManager settingsManager = ConfigBuilder.Create().FromAppConfigFile();
+            // Read client settings
+            SettingsManager? settings = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientSetupSettings clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
+            ClientSetupSettings? clientSettings = settings.GetSection<ClientSetupSettings>();
 
             // set to custom
-            clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
+            clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
 
             //
             // APPLICATION SETUP
@@ -37,7 +37,7 @@ namespace PingerAgent
             ClientApplication? cApp = ApplicationManager.InitializeAsMainApplication(new ClientApplication());
 
             // Initializes a Client Object Manager with the settings from configuration
-            var client = ClientObjMgr.Initialize(cApp, ref clientSetupSettings);
+            var client = ClientObjMgr.Initialize(cApp, ref clientSettings);
 
             // Registers domains through Domain Factory classes that reside in Domain assembly
             client.RegisterDomainFactory<PingerFactory>();
@@ -51,7 +51,7 @@ namespace PingerAgent
             //
 
             // Initialize Security PROFILE
-            cApp.InitializeApplicationSecurity(client, ref clientSetupSettings);
+            cApp.InitializeApplicationSecurity(client, ref clientSettings);
 
             //
             // RUN
