@@ -29,6 +29,7 @@
 
   <ItemGroup>
 	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />
+	  <ProjectReference Include="..\PingerUiCommon\PingerUiCommon.csproj" />
   </ItemGroup>
 
   <ItemGroup>
