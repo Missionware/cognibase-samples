@@ -78,20 +78,20 @@
 		<Otherwise>
 			<ItemGroup>
 				<!--Reference to nuget.-->
-				<PackageReference Include="Missionware.SharedLib.UI.Wpf" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.Security" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase.UI.Wpf" Version="0.7.60" />
-				<PackageReference Include="Missionware.Cognibase" Version="0.7.60" />
-				<PackageReference Include="Missionware.Serialization" Version="0.7.60" />
-				<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.7.60" />
-				<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.7.60" />
-				<PackageReference Include="Missionware.SharedLib" Version="0.7.60" />
+				<PackageReference Include="Missionware.SharedLib.UI.Wpf" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.Security" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase.UI.Wpf" Version="0.8.1" />
+				<PackageReference Include="Missionware.Cognibase" Version="0.8.1" />
+				<PackageReference Include="Missionware.Serialization" Version="0.8.1" />
+				<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.1" />
+				<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.1" />
+				<PackageReference Include="Missionware.SharedLib" Version="0.8.1" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
