@@ -100,7 +100,7 @@ namespace PingerAgent
 
                 // Cleanup Managed Resources
                 if (disposing)
-                    managedDispose();
+                    disposingManaged();
             }
         }
 
@@ -112,7 +112,7 @@ namespace PingerAgent
         }
 
         // Everything needed to run for cleanup goes here
-        protected virtual void managedDispose()
+        protected virtual void disposingManaged()
         {
             // Check & Dispose Blinker
             if (_pingSender != null) _pingSender.Dispose();
