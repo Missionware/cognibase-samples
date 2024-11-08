@@ -331,7 +331,7 @@ namespace PingerWinFormsApp
             dataGridView1.SelectionChanged -= dataGridView1_SelectionChanged;
             bsDevices.DataSource = null;
             _isAborted = true;
-            App.Client.Close();
+            App.Client?.Dispose();
             base.OnFormClosed(e);
         }
 

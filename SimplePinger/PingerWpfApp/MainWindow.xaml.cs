@@ -41,7 +41,7 @@ namespace PingerApp
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            App.Client.Close();
+            App.Client?.Dispose();
         }
 
         protected override void OnContentRendered(EventArgs e)

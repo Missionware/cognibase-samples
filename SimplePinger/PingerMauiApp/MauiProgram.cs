@@ -96,7 +96,7 @@ namespace PingerMauiApp
             ApplicationManager.RequiresDelegatedAuthentication = false;
 
             // Register
-            ApplicationManager.RegisterApplicationStartingModeProvider(() => { return ApplicationStartMode.Window; });
+            ApplicationManager.RegisterProcessInteractionModeProvider(() => ProcessInteractionMode.Window);
 
 
             // set

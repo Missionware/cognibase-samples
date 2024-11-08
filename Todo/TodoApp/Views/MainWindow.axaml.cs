@@ -80,7 +80,7 @@ namespace TodoApp.Views
             ApplicationManager.MainAppWindow = this;
 
             // Fix for Avalonia
-            ApplicationManager.RegisterApplicationStartingModeProvider(() => { return ApplicationStartMode.Window; });
+            ApplicationManager.RegisterProcessInteractionModeProvider(() => ProcessInteractionMode.Window);
 
             // set sync context
             App.RegisterMainSynchronizationContext();
@@ -89,7 +89,7 @@ namespace TodoApp.Views
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            App.Client.Close();
+            App.Client?.Dispose();
         }
 
         protected override async void OnOpened(EventArgs e)

@@ -69,7 +69,7 @@ namespace ChatDesktopApp.Views
             ApplicationManager.MainAppWindow = this;
 
             // Fix for Avalonia
-            ApplicationManager.RegisterApplicationStartingModeProvider(() => { return ApplicationStartMode.Window; });
+            ApplicationManager.RegisterProcessInteractionModeProvider(() => ProcessInteractionMode.Window);
 
             // set sync context
             App.RegisterMainSynchronizationContext();
@@ -78,7 +78,7 @@ namespace ChatDesktopApp.Views
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            App.Client.Close();
+            App.Client?.Dispose();
         }
 
         protected override async void OnOpened(EventArgs e)
@@ -88,7 +88,7 @@ namespace ChatDesktopApp.Views
             // build the startup helper that contains the auth manager, the auth dialog and the loader
             _startupHelper = new AvaloniaStartupHelper(this, App.Client);
             _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
-            _startupHelper.QuitAction = () => Close(); // set the quit action
+            _startupHelper.QuitAction = Close; // set the quit action
             _startupHelper.DataLoadAction = async () =>
             {
                 // data initialization flow
