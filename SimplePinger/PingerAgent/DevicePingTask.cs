@@ -1,6 +1,8 @@
 ﻿using System.Net.NetworkInformation;
 
 using Missionware.Cognibase.Library;
+using Missionware.SharedLib;
+
 using PingerDomain.Entities;
 
 namespace PingerAgent
@@ -8,14 +10,14 @@ namespace PingerAgent
     /// <summary>
     ///     This class represents the asynchronous task to perform the actual ping
     /// </summary>
-    public class DevicePingTask : IDisposable
+    public class DevicePingTask : IManagedDisposable
     {
         private readonly IClient _com; // the client objet manager
 
         private readonly Action<Device, PingReply, DateTime> _onPing; // the ping callback
 
         // Data
-        private readonly Ping _pingSender = new(); // the system pinger class 
+        private Ping _pingSender = new(); // the system pinger class 
         private volatile TaskState _state; // the state of the ping
 
         public DevicePingTask(Device device, IClient com,
@@ -78,44 +80,45 @@ namespace PingerAgent
         }
 
 
-        #region IDisposable
+        #region IManagedDisposable
 
+        //
         // Dispose pattern
-        private volatile bool _isDisposed;
+        //
 
-        public bool IsDisposed
-        {
-            get => _isDisposed;
-            private set => _isDisposed = value;
-        }
+        // Data
+        private volatile int _isDisposed;
+        private bool _isDisposing;
+
+        // Properties
+        public bool IsDisposed => _isDisposed == 1;
+        public bool IsDisposing => _isDisposing;
 
         // Called by either cleaner (:true) or class destructor (:false)
-        protected virtual void Dispose(bool disposing)
+        private void dispose(bool disposing)
         {
-            // Check
-            if (!IsDisposed)
-            {
-                // Only dispose once!
-                IsDisposed = true;
-
-                // Cleanup Managed Resources
-                if (disposing)
-                    disposingManaged();
-            }
+            // Only dispose once!
+            if (Interlocked.Exchange(ref _isDisposed, 1) == 0)
+                DisposeManager.DisposeIn(disposing, ref _isDisposing, disposingManaged, destructingUnmanaged);
         }
 
         // Public Cleaner Method
-        public void Dispose()
+        public virtual void Dispose()
         {
-            Dispose(true);
+            dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        // Everything needed to run for cleanup goes here
+        // Everything needed to run for cleanup of UNMANAGED resources goes here
+        protected virtual void destructingUnmanaged()
+        {
+            // Do nothing
+        }
+
+        // Everything needed to run for cleanup of MANAGED resources goes here
         protected virtual void disposingManaged()
         {
-            // Check & Dispose Blinker
-            if (_pingSender != null) _pingSender.Dispose();
+            _pingSender.Dispose();
         }
 
         #endregion
