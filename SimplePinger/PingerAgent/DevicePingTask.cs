@@ -95,11 +95,11 @@ namespace PingerAgent
         public bool IsDisposing => _isDisposing;
 
         // Called by either cleaner (:true) or class destructor (:false)
-        private void dispose(bool disposing)
+        private void dispose(bool isDisposingExplicitly)
         {
             // Only dispose once!
             if (Interlocked.Exchange(ref _isDisposed, 1) == 0)
-                DisposeManager.DisposeIn(disposing, ref _isDisposing, disposingManaged, destructingUnmanaged);
+                DisposeManager.SafeDispose(isDisposingExplicitly, ref _isDisposing, disposingObject, finalizingObject);
         }
 
         // Public Cleaner Method
@@ -110,13 +110,13 @@ namespace PingerAgent
         }
 
         // Everything needed to run for cleanup of UNMANAGED resources goes here
-        protected virtual void destructingUnmanaged()
+        protected virtual void finalizingObject()
         {
             // Do nothing
         }
 
         // Everything needed to run for cleanup of MANAGED resources goes here
-        protected virtual void disposingManaged()
+        protected virtual void disposingObject()
         {
             _pingSender.Dispose();
         }
