@@ -9,7 +9,7 @@ namespace NorthwindServer
         [MTAThread]
         private static void Main(string[] args)
         {
-            ServerManager.StartInConsole();
+            ServerManagerBase.StartInConsole();
         }
     }
 }
