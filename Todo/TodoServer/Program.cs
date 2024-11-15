@@ -14,7 +14,7 @@ namespace TodoServer
             LogManager.RegisterAgentType<SerilogAgent>();
 
             // start the object server
-            ServerManagerBase.StartInConsole();
+            ServerManager.StartInConsole();
         }
     }
 }

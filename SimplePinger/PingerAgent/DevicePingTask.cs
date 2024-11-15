@@ -95,7 +95,7 @@ namespace PingerAgent
         public bool IsDisposing => _isDisposing;
 
         // Called by either cleaner (:true) or class destructor (:false)
-        private void dispose(bool isDisposingExplicitly)
+        protected void dispose(bool isDisposingExplicitly)
         {
             // Only dispose once!
             if (Interlocked.Exchange(ref _isDisposed, 1) == 0)
