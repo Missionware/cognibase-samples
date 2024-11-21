@@ -91,7 +91,7 @@ namespace ChatDesktopApp.ViewModels
             if(!String.IsNullOrWhiteSpace(NewRoomText))
             {
                 // response
-                ClientTxnInfo response = null;
+                ClientTransactionInfo response = null;
 
                 // search for this room 
                 SearchArg args = new SearchArg(nameof(ChatRoom.Name), NewRoomText);
@@ -119,7 +119,7 @@ namespace ChatDesktopApp.ViewModels
                 }
 
                 // if success close form
-                if (response != null && !response.WasSuccessfull)
+                if (response != null && !response.WasSuccessful)
                 {
                     // reset items
                     _client.ResetAllMonitoredItems();
@@ -153,10 +153,10 @@ namespace ChatDesktopApp.ViewModels
                 _currentUser.ChatRooms.Remove(item);
 
                 // save
-                ClientTxnInfo saveResult = await _client.SaveAsync(item, _currentUser);
+                ClientTransactionInfo saveResult = await _client.SaveAsync(item, _currentUser);
 
                 // if not success unmark and notify user for the failure
-                if (!saveResult.WasSuccessfull)
+                if (!saveResult.WasSuccessful)
                 {
                     // reset items
                     _client.ResetAllMonitoredItems();
@@ -186,7 +186,7 @@ namespace ChatDesktopApp.ViewModels
                 var SaveResult = await _client.SaveAsync(false, TxnAutoInclusion.References, newMsg, CurrentUser, SelectedChatRoom);
                 
                 // if success close form
-                if (!SaveResult.WasSuccessfull)
+                if (!SaveResult.WasSuccessful)
                 {
                     // reset items
                     _client.ResetAllMonitoredItems();

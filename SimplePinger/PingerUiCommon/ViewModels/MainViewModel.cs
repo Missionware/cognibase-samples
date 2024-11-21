@@ -116,10 +116,10 @@ namespace PingerUiCommon.ViewModels
                 SelectedDevice.MarkForDeletion();
 
                 // save
-                ClientTxnInfo saveResult = await _client.SaveAsync();
+                ClientTransactionInfo saveResult = await _client.SaveAsync();
 
                 // if not success unmark 
-                if (!saveResult.WasSuccessfull)
+                if (!saveResult.WasSuccessful)
                 {
                     await _dialogService.ShowError("Error", "Could not delete Item.");
                     SelectedDevice.UnMarkForDeletion();

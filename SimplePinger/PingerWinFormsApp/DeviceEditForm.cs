@@ -49,10 +49,10 @@ namespace PingerWinFormsApp
         private void btnSave_Click(object sender, EventArgs e)
         {
             // save
-            ClientTxnInfo? saveResult = _com.Save();
+            ClientTransactionInfo? saveResult = _com.Save();
 
             // if success close form
-            if (saveResult.WasSuccessfull)
+            if (saveResult.WasSuccessful)
                 Close();
             else // else show message
                 MessageBox.Show("Could not save data. Try again or cancel edit.");

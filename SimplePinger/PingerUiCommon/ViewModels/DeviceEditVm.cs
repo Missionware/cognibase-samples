@@ -37,7 +37,7 @@ namespace PingerUiCommon.ViewModels
         public Device Device { get; set; }
         public bool IsEdit { get; set; }
         public bool IsNew { get; set; }
-        public ClientTxnInfo SaveResult { get; set; }
+        public ClientTransactionInfo SaveResult { get; set; }
         public Action CloseAction { get; set; }
 
 
@@ -73,7 +73,7 @@ namespace PingerUiCommon.ViewModels
             SaveResult = await _client.SaveAsync(Device);
 
             // if success close form
-            if (SaveResult.WasSuccessfull)
+            if (SaveResult.WasSuccessful)
                 CloseAction();
             else // else show message
                 await _dialogService.ShowError("Error", "Could not save data. Try again or cancel edit.");

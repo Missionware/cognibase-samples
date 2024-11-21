@@ -64,7 +64,7 @@ namespace TodoApp.ViewModels
             var saveResult = await _client.SaveAsync(Item);
 
             // if success close form
-            if (saveResult.WasSuccessfull)
+            if (saveResult.WasSuccessful)
                 CancelAction();
             else // else show message
                 await _dialogService.ShowError("Error", "Could not save data. Try again or cancel edit.");

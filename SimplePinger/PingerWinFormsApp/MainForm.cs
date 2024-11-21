@@ -130,10 +130,10 @@ namespace PingerWinFormsApp
                 currentObject.MarkForDeletion();
 
                 // save
-                ClientTxnInfo? saveResult = App.Client.Save();
+                ClientTransactionInfo? saveResult = App.Client.Save();
 
                 // if not success unmark 
-                if (!saveResult.WasSuccessfull)
+                if (!saveResult.WasSuccessful)
                 {
                     MessageBox.Show("Could not delete Item.");
                     currentObject.UnMarkForDeletion();

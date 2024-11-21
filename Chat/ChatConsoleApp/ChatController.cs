@@ -67,7 +67,7 @@ namespace ChatConsoleApp
                     if (_currentUser.IsNew)
                     {
                         // try save or else retry
-                        if (!App.Client.Save(_currentUser).WasSuccessfull)
+                        if (!App.Client.Save(_currentUser).WasSuccessful)
                         {
                             // log
                             ConsoleManager.WriteLine($"{DateTime.Now:T} | Error logging to chat app. User {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName} is not registered!");
@@ -83,7 +83,7 @@ namespace ChatConsoleApp
                     }
                     else
                     {
-                        if (App.Client.Save(_currentUser).WasSuccessfull)
+                        if (App.Client.Save(_currentUser).WasSuccessful)
                         {
                             // log
                             ConsoleManager.WriteLine($"{_currentUser.LastLoginTime:T} | Welcome {App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName}");
@@ -139,7 +139,7 @@ namespace ChatConsoleApp
                         // save
                         var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, curRoom);
 
-                        if(response.WasSuccessfull)
+                        if(response.WasSuccessful)
                         {
                             // log
                             ConsoleManager.WriteLine($"{DateTime.Now:T} | Room {roomName} created");
@@ -161,7 +161,7 @@ namespace ChatConsoleApp
                         // save
                         var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, curRoom);
 
-                        if (!response.WasSuccessfull)
+                        if (!response.WasSuccessful)
                         {
                             // log
                             ConsoleManager.WriteLine($"{DateTime.Now:T} | Error: Could not join room {roomName}");
@@ -202,7 +202,7 @@ namespace ChatConsoleApp
                         var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, _currentUser, curUserRoom);
 
                         // check
-                        if (!response.WasSuccessfull)
+                        if (!response.WasSuccessful)
                         {
                             // log
                             ConsoleManager.WriteLine($"{DateTime.Now:T} | Error: Could not leave room {roomName}");
@@ -242,7 +242,7 @@ namespace ChatConsoleApp
                         var response = await App.Client.SaveAsync(false, TxnAutoInclusion.References, newMsg, _currentUser, _currentRoom);
 
                         // check
-                        if (!response.WasSuccessfull)
+                        if (!response.WasSuccessful)
                         {
                             // log
                             ConsoleManager.WriteLine($"{DateTime.Now:T} | Error: Could not send message");

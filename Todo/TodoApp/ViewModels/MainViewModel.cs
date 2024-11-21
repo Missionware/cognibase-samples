@@ -54,7 +54,7 @@ namespace TodoApp.ViewModels
                 var SaveResult = await _client.SaveAsync(item);
 
                 // if fail reset edits and notify user for the failure
-                if (!SaveResult.WasSuccessfull)
+                if (!SaveResult.WasSuccessful)
                 {
                     // reset all edits
                     _client.ResetAllMonitoredItems();
@@ -80,10 +80,10 @@ namespace TodoApp.ViewModels
                 item.MarkForDeletion();
 
                 // save
-                ClientTxnInfo saveResult = await _client.SaveAsync(item);
+                ClientTransactionInfo saveResult = await _client.SaveAsync(item);
 
                 // if not success unmark and notify user for the failure
-                if (!saveResult.WasSuccessfull)
+                if (!saveResult.WasSuccessful)
                 {
                     // unmark (reset edit)
                     item.UnMarkForDeletion();

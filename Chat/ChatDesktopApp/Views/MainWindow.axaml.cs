@@ -100,7 +100,7 @@ namespace ChatDesktopApp.Views
                 _currentUser.LastLoginTime = DateTime.Now;
 
                 // try save or else retry
-                if (!App.Client.Save(_currentUser).WasSuccessfull)
+                if (!App.Client.Save(_currentUser).WasSuccessful)
                 {
                     // log
                     await _dialog.ShowError("Error", $"Error logging to chat app. User {myusername} is not registered!");
