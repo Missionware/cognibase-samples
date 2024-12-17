@@ -55,6 +55,7 @@
 				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.Wpf\Missionware.SharedLib.UI.Wpf.csproj" />
 				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
 				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 			</ItemGroup>
 		</When>
 		<When Condition="$(SolutionName.Contains('Analysis')) ">
@@ -73,6 +74,7 @@
 				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.Wpf\Missionware.SharedLib.UI.Wpf.csproj" />
 				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
 				<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+				<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 			</ItemGroup>
 		</When>
 		<Otherwise>
@@ -92,6 +94,7 @@
 				<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.2" />
 				<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.2" />
 				<PackageReference Include="Missionware.SharedLib" Version="0.8.2" />
+				<PackageReference Include="\Missionware.Cognibase.UI.Common" Version="0.8.2" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
