@@ -76,4 +76,9 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\TodoDomain\TodoDomain.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Views\HomeView.axaml.cs">
+	    <DependentUpon>HomeView.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 </Project>

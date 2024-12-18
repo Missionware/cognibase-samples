@@ -21,7 +21,7 @@ namespace TodoApp
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
             {
-                singleViewPlatform.MainView = new MainView();
+                singleViewPlatform.MainView = new HomeView();
             }
 
             base.OnFrameworkInitializationCompleted();

@@ -21,21 +21,18 @@ using Missionware.SharedLib.UI.Avalonia;
 
 using ReactiveUI;
 
+using TodoApp.Views;
 using TodoApp.ViewModels;
 
 using TodoDomain.Entities;
 using TodoDomain.System;
 
-namespace TodoApp.Views
+namespace TodoApp
 {
     public partial class MainWindow : Window
     {
         public static AvaloniaApplication App { get; set; }
-
         private AvaloniaStartupHelper _startupHelper;
-        private readonly AvaloniaDialog _dialog = new();
-        private readonly MainViewModel _vm;
-
         public ReactiveCommand<ToDoItem, Unit> AddEditItemCommand { get; }
 
         public MainWindow()
@@ -44,8 +41,6 @@ namespace TodoApp.Views
             AddEditItemCommand = ReactiveCommand.CreateFromTask(addEditItemFunc);
 
             InitializeComponent();
-
-            _vm = new MainViewModel(App.Client, _dialog);
         }
 
         protected override void OnInitialized()
@@ -109,13 +104,12 @@ namespace TodoApp.Views
             _startupHelper.DataLoadAction = () =>
             {
                 // read devices
-                DataItemCollection<ToDoItem> collection = App.Client.ReadDataItemCollection<ToDoItem>();
+                DataItemCollection<ToDoItem> todoItems = App.Client.ReadDataItemCollection<ToDoItem>();
 
                 // set data source in main thread
                 Dispatcher.UIThread.Invoke(() =>
                 {
-                    _vm.ListItems = App.Client.ReadDataItemCollection<ToDoItem>();
-                    mainView.DataContext = _vm;
+                    homeView.Setup(App.Client, todoItems);
                 });
             };
 
@@ -126,13 +120,13 @@ namespace TodoApp.Views
         public async Task OpenAddEditItemView(ToDoItem item)
         {
             // create the edit view View Model
-            var itemVm = new TodoItemEditVm(App.Client, item, _dialog);
+            var itemVm = new TodoItemEditVm(App.Client, item);
 
             // create the Edit View 
             var itemView = new TodoEditView();
 
             // set the cancel action to be the navigation back to the main view
-            itemVm.CancelAction = () => Content = mainView;
+            itemVm.CancelAction = () => Content = homeView;
 
             // set the Data Context to the viewmodel
             itemView.DataContext = itemVm;
