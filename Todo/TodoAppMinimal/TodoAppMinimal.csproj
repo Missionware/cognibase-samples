@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
+    One for Windows with net8.0-windows TFM, one for MacOS with net8.0-macos and one with net8.0 TFM for Linux.-->
+    <TargetFramework>net8.0</TargetFramework>
+	  <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\cognibase-logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\cognibase-logo.ico" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Avalonia" Version="11.0.6" />
+	  <PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+	  <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
+	  <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.6" />
+	  <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.6" />
+	  <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+	  <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
+	</ItemGroup>
+	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity.Domain\Missionware.Cognibase.Security.Identity.Domain.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity\Missionware.Cognibase.Security.Identity.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Ldap\Missionware.Cognibase.Security.Ldap.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.LinuxOS\Missionware.Cognibase.Security.LinuxOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security\Missionware.Cognibase.Security.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.LinuxOS\Missionware.SharedLib.LinuxOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.WindowsOS\Missionware.SharedLib.UI.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI\Missionware.SharedLib.UI.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Avalonia\Missionware.Cognibase.UI.Avalonia.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI.Avalonia\Missionware.SharedLib.UI.Avalonia.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.ReactiveUI\Missionware.Cognibase.UI.ReactiveUI.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.8.6" />
+		<PackageReference Include="Missionware.Serialization" Version="0.8.6" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.6" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.8.6" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.UI.Avalonia" Version="0.8.6" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.8.6" />
+		<PackageReference Include="Missionware.SharedLib.UI.Avalonia" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.UI.ReactiveUI" Version="0.8.6" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\TodoDomain\TodoDomain.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="HomeView.axaml.cs">
+	    <DependentUpon>HomeView.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+</Project>
