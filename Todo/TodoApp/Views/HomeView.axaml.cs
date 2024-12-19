@@ -19,7 +19,7 @@ public partial class HomeView : UserControl
 
     public void Setup(IClient client, DataItemCollection<ToDoItem> items)
     {
-        var vm = new HomeViewModel();
+        var vm = new HomeViewModel(client);
         vm.ListItems = items;
         DataContext = vm;
     }
