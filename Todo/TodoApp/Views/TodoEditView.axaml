@@ -4,21 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
              x:Class="TodoApp.Views.TodoEditView">
-    <DockPanel>
-        <Button DockPanel.Dock="Bottom"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Center"
-                Command="{Binding CancelCommand}">
-            Cancel
-        </Button>
-        <Button DockPanel.Dock="Bottom"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Center"
-                Command="{Binding SaveCommand}">
-            OK
-        </Button>
+	<Grid RowDefinitions="*,30,30,30">
+		
         <TextBox AcceptsReturn="True"
                  Text="{Binding Item.Description}"
                  Watermark="Enter your to do item" />
-    </DockPanel>
+		<Button Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Command="{Binding CancelCommand}">
+			Cancel
+		</Button>
+		<Button Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Command="{Binding SaveCommand}">
+			OK
+		</Button>
+		<TextBlock x:Name="errorBox" Grid.Row="3" Text="{Binding ErrorText}" />
+    </Grid>
 </UserControl>

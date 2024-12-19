@@ -19,22 +19,33 @@ using TodoDomain.Entities;
 
 namespace TodoApp.ViewModels
 {
-    public class MainViewModel : ReactiveObject
+    public class HomeViewModel : ReactiveObject
     {
         // Data
         IClient _client;    // the client object manager
-        private readonly IAsyncDialogService _dialogService; // the dialog service
-
+        private readonly HomeViewModel _vm;
+        private string _errorText;
         public DataItemCollection<ToDoItem> ListItems { get; set; }     // The live collection of the ToDo items bound to the view
         public ReactiveCommand<ToDoItem, Unit> WriteItemCheckCommand { get; }   // The Check command bound to each item
         public ReactiveCommand<ToDoItem, Unit> DeleteItemCommand { get; }   // The Delete command bound to each item
-        public MainViewModel() { }  // This constructor is used only in the 
 
-        public MainViewModel(IClient client, IAsyncDialogService dialogService)
+        public string ErrorText
+        {
+            get => _errorText;
+            set
+            {
+                _errorText = value;
+                this.RaisePropertyChanged(nameof(ErrorText));
+            }
+        }
+
+        public HomeViewModel() { }  // This constructor is used only in the 
+
+        public HomeViewModel(IClient client)
         {
             // set
             _client = client;
-            _dialogService = dialogService;
+            ErrorText = String.Empty;
 
             // set check command
             Func<ToDoItem, Task> writeItemCheckFunc = item => WriteItemCheck(item);
@@ -60,7 +71,11 @@ namespace TodoApp.ViewModels
                     _client.ResetAllMonitoredItems();
 
                     // notify
-                    await _dialogService.ShowError("Error", "Could not save data. Try again or cancel edit.");
+                    ErrorText = "Could not save data. Try again or cancel edit.";
+                }
+                else
+                {
+                    ErrorText = String.Empty;
                 }
             }
         }
@@ -70,12 +85,6 @@ namespace TodoApp.ViewModels
             // check the item is not null
             if (item != null)
             {
-                // confirm deletion
-                AsyncDialogResult result = await _dialogService.AskConfirmation("Delete Item?",
-                    $"Do you want to Proceed?");
-                if (result == AsyncDialogResult.NotConfirmed)
-                    return;
-
                 // mark for deletion
                 item.MarkForDeletion();
 
@@ -89,7 +98,11 @@ namespace TodoApp.ViewModels
                     item.UnMarkForDeletion();
 
                     // notify
-                    await _dialogService.ShowError("Error", "Could not delete Item.");
+                    ErrorText = "Could not delete Item.";
+                }
+                else
+                {
+                    ErrorText = String.Empty;
                 }
             }
         }

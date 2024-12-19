@@ -15,5 +15,10 @@ namespace TodoApp.Views
         {
             InitializeComponent();
         }
+
+        public void Setup()
+        {
+
+        }
     }
 }

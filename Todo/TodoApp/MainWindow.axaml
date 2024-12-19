@@ -5,9 +5,10 @@
         xmlns:views="clr-namespace:TodoApp.Views"
         mc:Ignorable="d" d:DesignWidth="350"
         d:DesignHeight="450" Width="350"
-        x:Class="TodoApp.Views.MainWindow"
+        x:Class="TodoApp.MainWindow"
         Icon="/Assets/cognibase-logo.ico"
         Title="ToDo App"
         WindowStartupLocation="CenterScreen">
-    <views:MainView x:Name="mainView" />
+	
+		<views:HomeView x:Name="homeView" />
 </Window>
