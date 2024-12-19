@@ -93,7 +93,7 @@ namespace ChatDesktopApp.Views
             {
                 // data initialization flow
                 // get username
-                var myusername = App.Client.PrimaryServerMgr.ClientConnectionInfo.ClientIdentity.UserName;
+                var myusername = App.Client.PrimaryServerMgr.ClientSessionInfo.ClientIdentity.UserName;
 
                 // get or create user
                 _currentUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
