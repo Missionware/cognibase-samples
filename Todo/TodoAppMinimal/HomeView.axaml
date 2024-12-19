@@ -10,11 +10,11 @@
 
 		<!-- ListBox for displaying Todo items -->
 	      <ScrollViewer VerticalScrollBarVisibility="Visible">
-		    <ItemsControl x:Name="TodoListBox" ItemsSource="{Binding Todos}">
+		    <ItemsControl x:Name="TodoListBox">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="40, *, 50">
-                            <CheckBox Margin="4" Grid.Column="0" IsChecked="{Binding IsChecked, Mode=TwoWay}" IsCheckedChanged="CheckBox_IsCheckedChanged"/>
+                            <CheckBox Margin="4" Grid.Column="0"  IsChecked="{Binding IsChecked, Mode=TwoWay}"  />
                 
                             <!-- Single TextBox used for both display and edit -->
 							<TextBox x:Name="ItemTextBox" Margin="0,8,0,0" Grid.Column="1"

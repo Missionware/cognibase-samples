@@ -1,4 +1,7 @@
 using System;
+using System.Diagnostics;
+using System.Reactive;
+using System.Threading.Tasks;
 
 using Avalonia;
 using Avalonia.Controls;
@@ -9,6 +12,9 @@ using Avalonia.Media;
 
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Library;
+using Missionware.Cognibase.Security.Identity.Domain;
+
+using ReactiveUI;
 
 using TodoDomain.Entities;
 
@@ -28,28 +34,20 @@ public partial class HomeView : UserControl
     {
         TodoListBox.ItemsSource = items;
         _client = client;
+        _client.DataItemPropertyChanged += _client_DataItemPropertyChanged;
     }
 
-    private async void CheckBox_IsCheckedChanged(object? sender, RoutedEventArgs e)
+    private async void _client_DataItemPropertyChanged(object? sender, DataItemPropertyChangedEventArgs e)
     {
-        if (sender is CheckBox checkBox)
+        if (e.PropertyName == nameof(ToDoItem.IsChecked) && e.DataItem.IsModified)
         {
-            var item = checkBox.DataContext as ToDoItem;
+            var saveResult = await _client.SaveAsync(e.DataItem);
 
-            if (item.IsChanged)
-            {
-                // save
-                var saveResult = await _client.SaveAsync(item);
-
-                // if not successful close form
-                if (!saveResult.WasSuccessful)
-                    _client.ResetAllMonitoredItems();
-                else
-                    NewTodoTextBox.Focus();
-            }
+            // if not successful close form
+            if (!saveResult.WasSuccessful)
+                _client.ResetAllMonitoredItems();
         }
-    }
-    
+    }    
 
     // Handle adding new Todo items
     private async void NewTodoTextBox_KeyDown(object? sender, KeyEventArgs e)
@@ -75,7 +73,7 @@ public partial class HomeView : UserControl
         {
             var item = textBox.DataContext as ToDoItem;
 
-            if (item.IsChanged)
+            if (item != null && item.IsModified)
             {
                 // save
                 var saveResult = await _client.SaveAsync(item);
@@ -146,6 +144,6 @@ public partial class HomeView : UserControl
 
             }
         }
-       
     }
 }
+
