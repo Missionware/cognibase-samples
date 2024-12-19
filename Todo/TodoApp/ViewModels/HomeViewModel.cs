@@ -23,7 +23,6 @@ namespace TodoApp.ViewModels
     {
         // Data
         IClient _client;    // the client object manager
-        private readonly HomeViewModel _vm;
         private string _errorText;
         public DataItemCollection<ToDoItem> ListItems { get; set; }     // The live collection of the ToDo items bound to the view
         public ReactiveCommand<ToDoItem, Unit> WriteItemCheckCommand { get; }   // The Check command bound to each item
