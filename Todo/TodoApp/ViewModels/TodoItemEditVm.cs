@@ -53,7 +53,7 @@ namespace TodoApp.ViewModels
         private async Task Cancel()
         {
             // check changed
-            if (Item != null && Item.IsChanged)
+            if (Item != null && Item.IsModified)
             {
                 // if cancel reset edits
                 _client.ResetAllMonitoredItems();
