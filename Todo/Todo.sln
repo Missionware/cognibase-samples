@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoServer", "TodoServer\To
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp", "TodoApp\TodoApp.csproj", "{3B977CF8-4621-439B-9BA5-5CA74913DCFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoAppMinimal", "TodoAppMinimal\TodoAppMinimal.csproj", "{D33024B4-A128-47B1-9E00-43462850A96F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3B977CF8-4621-439B-9BA5-5CA74913DCFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B977CF8-4621-439B-9BA5-5CA74913DCFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B977CF8-4621-439B-9BA5-5CA74913DCFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D33024B4-A128-47B1-9E00-43462850A96F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D33024B4-A128-47B1-9E00-43462850A96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D33024B4-A128-47B1-9E00-43462850A96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D33024B4-A128-47B1-9E00-43462850A96F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
