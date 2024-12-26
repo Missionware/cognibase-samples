@@ -5,19 +5,14 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="800"
              x:Class="TodoAppMinimal.HomeView">
   <StackPanel Margin="10">
-		<!-- TextBox for adding new Todo items -->
 		<TextBox x:Name="NewTodoTextBox" KeyDown="NewTodoTextBox_KeyDown" />
-
-		<!-- ListBox for displaying Todo items -->
 	      <ScrollViewer VerticalScrollBarVisibility="Visible">
 		    <ItemsControl x:Name="TodoListBox">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="40, *, 50">
                             <CheckBox Margin="4" Grid.Column="0"  IsChecked="{Binding IsChecked, Mode=TwoWay}"  />
-                
-                            <!-- Single TextBox used for both display and edit -->
-							<TextBox x:Name="ItemTextBox" Margin="0,8,0,0" Grid.Column="1"
+                			<TextBox x:Name="ItemTextBox" Margin="0,8,0,0" Grid.Column="1"
                                      Text="{Binding Description}"
                                      IsReadOnly="True" Background="Transparent"
                                      BorderBrush="Transparent"
