@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <StartupObject>PingerApp.App</StartupObject>
@@ -21,10 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Images\check-circle2.png" />
-    <None Remove="Images\hello_world_new_black.png" />
-    <None Remove="Images\info-empty.png" />
-    <None Remove="Images\warning-triangle.png" />
+    <None Remove="images\check-circle2.png" />
+    <None Remove="images\hello_world_new_black.png" />
+    <None Remove="images\info-empty.png" />
+    <None Remove="images\warning-triangle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveChartsCore" Version="2.0.0-rc1.2" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\check-circle2.png" />
-    <Resource Include="Images\hello_world_new_black.png" />
-    <Resource Include="Images\info-empty.png" />
-    <Resource Include="Images\warning-triangle.png" />
+    <Resource Include="images\check-circle2.png" />
+    <Resource Include="images\hello_world_new_black.png" />
+    <Resource Include="images\info-empty.png" />
+    <Resource Include="images\warning-triangle.png" />
   </ItemGroup>
 	<Choose>
 		<When Condition="$(SolutionName.Contains('Refactoring')) ">

@@ -11,7 +11,7 @@ using PingerDomain.Entities;
 
 using PingerUiCommon.ViewModels;
 
-namespace PingerApp
+namespace PingerWpfApp
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -31,8 +31,11 @@ namespace PingerApp
         {
             InitializeComponent();
 
+            _dialog = new AsyncWpfDialog();
             _vm = new MainViewModel(App.Client, _dialog);
             DataContext = _vm;
+            menuAdd.Click += MenuAdd_Click;
+            menuEdit.Click += MenuEdit_Click;
         }
 
         public static WpfApplication App { get; set; }
@@ -64,6 +67,33 @@ namespace PingerApp
             };
 
             _startupHelper.ShowAuthDialog();
+        }
+
+
+        private void MenuEdit_Click(object? sender, RoutedEventArgs e)
+        {
+            // call edit form
+            if (_vm.SelectedDevice != null)
+            {
+                var devVm = new DeviceEditVm(App.Client, _vm.SelectedDevice, _dialog);
+                var devView = new DeviceEditWindow();
+                devVm.CloseAction = devView.Close;
+                devView.SetupView(devVm);
+                devView.ShowDialog();
+            }
+            else
+            {
+                _dialog.ShowMessage("Info", "Nothing is selected");
+            }
+        }
+
+        private void MenuAdd_Click(object? sender, RoutedEventArgs e)
+        {
+            var devVm = new DeviceEditVm(App.Client, null, _dialog);
+            var devView = new DeviceEditWindow();
+            devVm.CloseAction = devView.Close;
+            devView.SetupView(devVm);
+            devView.ShowDialog();
         }
     }
 }

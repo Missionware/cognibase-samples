@@ -43,11 +43,11 @@ namespace PingerApp
             //
 
             // Initialize the correct (Wpf) COGNIBASE Application through the Application Manager 
-            PingerApp.MainWindow.App = ApplicationManager.InitializeAsMainApplication(
+            PingerWpfApp.MainWindow.App = ApplicationManager.InitializeAsMainApplication(
                 new WpfApplication(new WpfApplicationFeatures()));
 
             // Initializes a Client Object Manager with the settings from configuration
-            var client = ClientObjMgr.Initialize(PingerApp.MainWindow.App, ref clientSetupSettings);
+            var client = ClientObjMgr.Initialize(PingerWpfApp.MainWindow.App, ref clientSetupSettings);
 
             // Registers domains through Domain Factory classes that reside in Domain assembly
             _ = client.RegisterDomainFactory<PingerFactory>();
@@ -55,29 +55,22 @@ namespace PingerApp
 
 
             // set sync context
-            PingerApp.MainWindow.App.RegisterMainWindowFactory(PingerApp.MainWindow.MainWindowFactory);
+            PingerWpfApp.MainWindow.App.RegisterMainWindowFactory(PingerWpfApp.MainWindow.MainWindowFactory);
 
             //
             // SECURITY SETUP
             //
 
             // Initialize Security PROFILE
-            _ = PingerApp.MainWindow.App.InitializeApplicationSecurity(client, ref clientSetupSettings);
+            _ = PingerWpfApp.MainWindow.App.InitializeApplicationSecurity(client, ref clientSetupSettings);
 
             //
             // RUN
             //
 
-            ApplicationManager.IsUserInterActive = true;
-            ApplicationManager.IsDialogInterActive = true;
-            ApplicationManager.RequiresDelegatedAuthentication = false;
-   
-            // Register
-            ApplicationManager.RegisterProcessInteractionModeProvider(() => ProcessInteractionMode.Window);
-
 
             // Start
-            PingerApp.MainWindow.App.StartUpClient(StartupConnectionMode.NoConnection);
+            PingerWpfApp.MainWindow.App.StartUpClient(StartupConnectionMode.NoConnection);
         }
 
 

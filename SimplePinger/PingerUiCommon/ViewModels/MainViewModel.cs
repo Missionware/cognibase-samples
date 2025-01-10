@@ -116,7 +116,7 @@ namespace PingerUiCommon.ViewModels
                 SelectedDevice.MarkForDeletion();
 
                 // save
-                ClientTransactionInfo saveResult = await _client.SaveAsync();
+                ClientTransactionInfo saveResult = await _client.SaveAsync().ConfigureAwait(true);
 
                 // if not success unmark 
                 if (!saveResult.WasSuccessful)
