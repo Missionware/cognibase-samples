@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net9.0-ios;net9.0-maccatalyst;net9.0-android35.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -31,7 +31,7 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
@@ -99,24 +99,24 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Common\Missionware.Cognibase.UI.Common.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase" Version="0.8.6" />
-		<PackageReference Include="Missionware.Serialization" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.UI" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.UI.Maui" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.8.8" />
+		<PackageReference Include="Missionware.Serialization" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.UI" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.UI.Maui" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.8" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\PingerDomain\PingerDomain.csproj" />

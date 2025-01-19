@@ -35,9 +35,6 @@ namespace PingerApp
             // Get proper SECTION
             ClientSetupSettings clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
 
-            // Set to CUSTOM Connect Workflow
-            clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
-
             //
             // APPLICATION SETUP
             //
@@ -70,7 +67,10 @@ namespace PingerApp
 
 
             // Start
-            PingerWpfApp.MainWindow.App.StartUpClient(StartupConnectionMode.NoConnection);
+            if (clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting)
+                PingerWpfApp.MainWindow.App.StartUpClient(StartupConnectionMode.NoConnection);
+            else
+                PingerWpfApp.MainWindow.App.StartUpClient(StartupConnectionMode.ConnectAndStart);
         }
 
 

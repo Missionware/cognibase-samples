@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -25,22 +25,22 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.Logging.SerilogAddin\Missionware.SharedLib.Logging.SerilogAddin.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="!$(SolutionName.Contains('Refactoring')) And !$(SolutionName.Contains('Analysis'))">
-		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.Security" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase" Version="0.8.6" />
-		<PackageReference Include="Missionware.Serialization" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.6" />
-		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.6" />
-		<PackageReference Include="Missionware.Serialization.BinaryFormatterAddin" Version="0.8.6" />
-		<PackageReference Include="Missionware.SharedLib.Logging.SerilogAddin" Version="0.8.6" />
+		<PackageReference Include="Missionware.Cognibase.Comm.Streaming" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.AppManagement.Domain" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase" Version="0.8.8" />
+		<PackageReference Include="Missionware.Serialization" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.8" />
+		<PackageReference Include="Missionware.Serialization.BinaryFormatterAddin" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.Logging.SerilogAddin" Version="0.8.8" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\ChatDomain\ChatDomain.csproj" />

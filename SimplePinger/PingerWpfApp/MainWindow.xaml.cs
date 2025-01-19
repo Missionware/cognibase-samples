@@ -2,9 +2,11 @@
 using System.Windows;
 
 using Missionware.Cognibase.Client;
+using Missionware.Cognibase.Config;
 using Missionware.Cognibase.UI.Common.ViewModels;
 using Missionware.Cognibase.UI.Wpf;
 using Missionware.Cognibase.UI.Wpf.Client;
+using Missionware.ConfigLib;
 using Missionware.SharedLib.UI.Wpf.Lib;
 
 using PingerDomain.Entities;
@@ -21,6 +23,8 @@ namespace PingerWpfApp
         private WpfStartupHelper _startupHelper;
         private AsyncWpfDialog _dialog;
         private readonly MainViewModel _vm;
+        private bool _isInitialized = false;
+        ClientSetupSettings _clientSetupSettings;
 
         public static MainWindow MainWindowFactory()
         {
@@ -31,12 +35,18 @@ namespace PingerWpfApp
         {
             InitializeComponent();
 
+            SettingsManager settingsManager = ConfigBuilder.Create().FromAppConfigFile();
+            _clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
+
             _dialog = new AsyncWpfDialog();
             _vm = new MainViewModel(App.Client, _dialog);
             DataContext = _vm;
             menuAdd.Click += MenuAdd_Click;
             menuEdit.Click += MenuEdit_Click;
+            App.Client.ServerConnectionChange += Client_ServerConnectionChange;
         }
+
+
 
         public static WpfApplication App { get; set; }
 
@@ -51,10 +61,30 @@ namespace PingerWpfApp
         {
             base.OnContentRendered(e);
 
-            _startupHelper = new WpfStartupHelper(this, App.Client);
-            _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
-            _startupHelper.QuitAction = () => Close();
-            _startupHelper.DataLoadAction = () =>
+            if (_clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting)
+            {
+                _startupHelper = new WpfStartupHelper(this, App.Client);
+                _startupHelper.AuthVm = new SimpleAuthDialogVm { DomainFullName = "Basic", Username = "user1", Password = "user1" };
+                _startupHelper.QuitAction = () => Close();
+                _startupHelper.DataLoadAction = () =>
+                {
+                    // read devices
+                    DataItemCollection<Device> collection = App.Client.ReadDataItemCollection<Device>();
+
+                    // set data source in main thread
+                    Dispatcher.Invoke(() =>
+                    {
+                        _vm.Devices = collection;
+                    });
+                };
+                _startupHelper.ShowAuthDialog();
+            }
+        }
+
+        private void Client_ServerConnectionChange(object? sender, Missionware.Cognibase.Library.ServerConnectionChangedEventArgs e)
+        {
+            if (!_clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting
+                && !_isInitialized && App.Client.IsRegistered && App.Client.IsConnected)
             {
                 // read devices
                 DataItemCollection<Device> collection = App.Client.ReadDataItemCollection<Device>();
@@ -64,9 +94,9 @@ namespace PingerWpfApp
                 {
                     _vm.Devices = collection;
                 });
-            };
 
-            _startupHelper.ShowAuthDialog();
+                _isInitialized = true;
+            }
         }
 
 
