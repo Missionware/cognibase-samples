@@ -59,7 +59,7 @@ namespace PingerMauiApp
             SettingsManager settings = ConfigBuilder.Create().FromXmlConfigText(configText);
 
             // Get proper SECTION
-            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
+            ClientObjectManagerSetupSettings clientSettings = settings.GetSection<ClientObjectManagerSetupSettings>();
 
             // Set to CUSTOM Connect Workflow
             clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;

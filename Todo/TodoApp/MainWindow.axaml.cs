@@ -52,7 +52,7 @@ namespace TodoApp
             SettingsManager settings = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
+            ClientObjectManagerSetupSettings clientSettings = settings.GetSection<ClientObjectManagerSetupSettings>();
 
             // Set to CUSTOM Connect Workflow
             clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;

@@ -24,7 +24,7 @@ namespace PingerWpfApp
         private AsyncWpfDialog _dialog;
         private readonly MainViewModel _vm;
         private bool _isInitialized = false;
-        ClientSetupSettings _clientSetupSettings;
+        ClientObjectManagerSetupSettings _clientSetupSettings;
 
         public static MainWindow MainWindowFactory()
         {
@@ -36,7 +36,7 @@ namespace PingerWpfApp
             InitializeComponent();
 
             SettingsManager settingsManager = ConfigBuilder.Create().FromAppConfigFile();
-            _clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
+            _clientSetupSettings = settingsManager.GetSection<ClientObjectManagerSetupSettings>();
 
             _dialog = new AsyncWpfDialog();
             _vm = new MainViewModel(App.Client, _dialog);
