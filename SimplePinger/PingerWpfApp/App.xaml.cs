@@ -33,7 +33,7 @@ namespace PingerApp
             SettingsManager settingsManager = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientObjectManagerSetupSettings clientSetupSettings = settingsManager.GetSection<ClientObjectManagerSetupSettings>();
+            ClientSetupSettings clientSetupSettings = settingsManager.GetSection<ClientSetupSettings>();
 
             //
             // APPLICATION SETUP

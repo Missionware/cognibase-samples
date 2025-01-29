@@ -25,7 +25,7 @@ namespace ChatConsoleApp
             var settings = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            var clientSettings = settings.GetSection<ClientObjectManagerSetupSettings>();
+            var clientSettings = settings.GetSection<ClientSetupSettings>();
 
             //
             // APPLICATION SETUP

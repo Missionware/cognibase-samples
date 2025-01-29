@@ -44,7 +44,7 @@ namespace ChatDesktopApp.Views
             SettingsManager settings = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientObjectManagerSetupSettings clientSettings = settings.GetSection<ClientObjectManagerSetupSettings>();
+            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
 
             // Set to CUSTOM Connect Workflow
             clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;

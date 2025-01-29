@@ -24,7 +24,7 @@ namespace PingerAgent
             SettingsManager? settings = ConfigBuilder.Create().FromAppConfigFile();
 
             // Get proper SECTION
-            ClientObjectManagerSetupSettings? clientSettings = settings.GetSection<ClientObjectManagerSetupSettings>();
+            ClientSetupSettings? clientSettings = settings.GetSection<ClientSetupSettings>();
 
             // set to custom
             clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;

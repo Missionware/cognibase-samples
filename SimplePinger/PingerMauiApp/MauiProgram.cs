@@ -48,18 +48,18 @@ namespace PingerMauiApp
             //
 
             // Read client settings
-            string configText = null;
+            string configText;
             using Stream fileStream = FileSystem.Current.OpenAppPackageFileAsync("app.config").Result;
             using (var reader = new StreamReader(fileStream))
             {
                 configText = reader.ReadToEnd();
-                Configuration.SetupMainSettingsFromText(appConfigurationText: configText);
+                ApplicationManager.SetupGlobalApplicationPropertiesFromText(applicationXmlConfigurationText: configText);
             }
 
             SettingsManager settings = ConfigBuilder.Create().FromXmlConfigText(configText);
 
             // Get proper SECTION
-            ClientObjectManagerSetupSettings clientSettings = settings.GetSection<ClientObjectManagerSetupSettings>();
+            ClientSetupSettings clientSettings = settings.GetSection<ClientSetupSettings>();
 
             // Set to CUSTOM Connect Workflow
             clientSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting = true;
