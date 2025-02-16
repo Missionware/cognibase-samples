@@ -19,9 +19,6 @@ namespace ChatDomain.Entities
         [PersistedProperty]
         public DateTime CreatedTime { get => getter<DateTime>(); set => setter(value); }
 
-        [PersistedProperty]
-        public DateTime FirstReadTime { get => getter<DateTime>(); set => setter(value); }
-
         [PersistedProperty(ReverseRef = nameof(User.Messages))]
         public User Author { get => getter<User>(); set => setter(value); }
     }
