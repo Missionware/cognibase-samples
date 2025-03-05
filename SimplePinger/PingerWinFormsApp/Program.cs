@@ -29,7 +29,8 @@ namespace PingerWinFormsApp
             MainForm.App = WinFormsApplicationBuilder.CreateAsMain()
                 .WithMainWindowType<MainForm>()
                 .WithMainClient(o =>
-                    ClientBuilder.CreateFor(o)
+                    new ClientBuilder()
+                        .CreateFor(o)
                         .WithSettingsFromConfig()
                         .WithDomainFactory<PingerFactory>()
                         .WithDomainFactory<IdentityFactory>()
