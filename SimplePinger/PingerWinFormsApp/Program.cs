@@ -49,7 +49,7 @@ namespace PingerWinFormsApp
             });
 
             // Start
-            MainForm.App.StartUpClient(StartupConnectionMode.StartAndConnect);
+            MainForm.App.Run(StartupConnectionMode.StartAndConnect);
         }
     }
 }

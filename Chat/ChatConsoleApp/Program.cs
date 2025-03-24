@@ -57,7 +57,7 @@ namespace ChatConsoleApp
             //
             // RUN
             //
-            cApp.StartUpClient(StartupConnectionMode.ConnectAndStart);
+            cApp.Run(StartupConnectionMode.ConnectAndStart);
         }
     }
 }
