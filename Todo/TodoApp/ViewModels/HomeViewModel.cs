@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Reactive;
 using System.Threading.Tasks;
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Library;
-using Missionware.Cognibase.Security.Identity.Domain;
-using Missionware.Cognibase.UI.ReactiveUI.ViewModels;
-using Missionware.SharedLib.UI;
-
-using MsBox.Avalonia.ViewModels.Commands;
 
 using ReactiveUI;
-using TodoApp.Views;
 
 using TodoDomain.Entities;
 

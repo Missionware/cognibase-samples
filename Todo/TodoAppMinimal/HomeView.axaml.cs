@@ -1,24 +1,12 @@
-using System;
-using System.Diagnostics;
-using System.Reactive;
-using System.Threading.Tasks;
-
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 
 using Missionware.Cognibase.Client;
 using Missionware.Cognibase.Library;
-using Missionware.Cognibase.Security.Identity.Domain;
-
-using ReactiveUI;
 
 using TodoDomain.Entities;
-
-using static Missionware.SharedLib.Serialization.SerializedPropertyBinder;
 
 namespace TodoAppMinimal;
 
