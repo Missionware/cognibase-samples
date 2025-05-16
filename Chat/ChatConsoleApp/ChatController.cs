@@ -57,10 +57,10 @@ namespace ChatConsoleApp
                 try
                 {
                     // get username
-                    var myusername = App.Client.PrimaryServerMgr.ClientSessionInfo.ClientIdentity.UserName;
+                    var myusername = App.Client.PrimaryServerMgr.RegisteredClientIdentity.UserName;
 
                     // get or create user
-                    _currentUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
+                    _currentUser = DataItem.GetOrCreateDataItem<User>(App.Client, [myusername]);
                     _currentUser.LastLoginTime = DateTime.Now;
 
                     // if just created
@@ -70,7 +70,7 @@ namespace ChatConsoleApp
                         if (!App.Client.Save(_currentUser).WasSuccessful)
                         {
                             // log
-                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Error logging to chat app. User {App.Client.PrimaryServerMgr.ClientSessionInfo.ClientIdentity.UserName} is not registered!");
+                            ConsoleManager.WriteLine($"{DateTime.Now:T} | Error logging to chat app. User {App.Client.PrimaryServerMgr.RegisteredClientIdentity.UserName} is not registered!");
                             _currentUser.Dispose();
                             _currentUser = null;
                             continue;
@@ -78,7 +78,7 @@ namespace ChatConsoleApp
                         else
                         {
                             // log created
-                            ConsoleManager.WriteLine($"{_currentUser.LastLoginTime} | Welcome {App.Client.PrimaryServerMgr.ClientSessionInfo.ClientIdentity.UserName}");
+                            ConsoleManager.WriteLine($"{_currentUser.LastLoginTime} | Welcome {App.Client.PrimaryServerMgr.RegisteredClientIdentity.UserName}");
                         }
                     }
                     else
@@ -86,7 +86,7 @@ namespace ChatConsoleApp
                         if (App.Client.Save(_currentUser).WasSuccessful)
                         {
                             // log
-                            ConsoleManager.WriteLine($"{_currentUser.LastLoginTime:T} | Welcome {App.Client.PrimaryServerMgr.ClientSessionInfo.ClientIdentity.UserName}");
+                            ConsoleManager.WriteLine($"{_currentUser.LastLoginTime:T} | Welcome {App.Client.PrimaryServerMgr.RegisteredClientIdentity.UserName}");
                         }
                     }
 
@@ -95,7 +95,7 @@ namespace ChatConsoleApp
                 catch (Exception ex)
                 {
                     // log error
-                    ConsoleManager.WriteLine($"{DateTime.Now:T} | Error logging to chat app for user {App.Client.PrimaryServerMgr.ClientSessionInfo.ClientIdentity.UserName}");
+                    ConsoleManager.WriteLine($"{DateTime.Now:T} | Error logging to chat app for user {App.Client.PrimaryServerMgr.RegisteredClientIdentity.UserName}");
                     await Task.Delay(1000);
                 }
             }

@@ -93,10 +93,10 @@ namespace ChatDesktopApp.Views
             {
                 // data initialization flow
                 // get username
-                var myusername = App.Client.PrimaryServerMgr.ClientSessionInfo.ClientIdentity.UserName;
+                var myusername = App.Client.PrimaryServerMgr.RegisteredClientIdentity.UserName;
 
                 // get or create user
-                _currentUser = DataItem.GetOrCreateDataItem<User>(App.Client, new object[] { myusername });
+                _currentUser = DataItem.GetOrCreateDataItem<User>(App.Client, [myusername]);
                 _currentUser.LastLoginTime = DateTime.Now;
 
                 // try save or else retry
