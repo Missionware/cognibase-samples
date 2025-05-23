@@ -109,7 +109,7 @@ namespace PingerWinFormsApp
             }
             else
             {
-                MessageBox.Show("Nothing is selected");
+                MessageBox.Show(@"Nothing is selected");
             }
         }
 
@@ -135,14 +135,14 @@ namespace PingerWinFormsApp
                 // if not success unmark 
                 if (!saveResult.WasSuccessful)
                 {
-                    MessageBox.Show("Could not delete Item.");
+                    MessageBox.Show(@"Could not delete Item.");
                     currentObject.UnMarkForDeletion();
                 }
             }
             else
             {
                 // log
-                MessageBox.Show("Nothing is selected");
+                MessageBox.Show(@"Nothing is selected");
             }
         }
 
@@ -320,7 +320,7 @@ namespace PingerWinFormsApp
                 catch (Exception ex)
                 {
                     // show error
-                    MessageBox.Show($"Error: {ex.Message}");
+                    MessageBox.Show($@"Error: {ex.Message}");
                 }
         }
 

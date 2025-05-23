@@ -55,7 +55,7 @@ namespace PingerWinFormsApp
             if (saveResult.WasSuccessful)
                 Close();
             else // else show message
-                MessageBox.Show("Could not save data. Try again or cancel edit.");
+                MessageBox.Show(@"Could not save data. Try again or cancel edit.");
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
