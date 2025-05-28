@@ -3,7 +3,5 @@
              x:Class="TodoApp.App" RequestedThemeVariant="Dark">
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-        <!--StyleInclude Source="resm:Avalonia.Controls.DataGrid.Themes.Default.xaml?assembly=Avalonia.Controls.DataGrid" /-->
     </Application.Styles>
 </Application>
