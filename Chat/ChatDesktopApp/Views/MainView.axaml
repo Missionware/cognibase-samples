@@ -46,8 +46,8 @@
             </ScrollViewer>
         </Grid>
         <Grid RowDefinitions="*,100">
-            <ScrollViewer VerticalScrollBarVisibility="Visible">
-                <ListBox ItemsSource="{Binding SelectedChatRoom.Messages}">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" x:Name="scrollPanel">
+                <ListBox ItemsSource="{Binding SelectedChatRoom.Messages}" x:Name="itemsPanel">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -55,14 +55,14 @@
                                            Text="{Binding Author.Username}" />
                                 <TextBlock Margin="4">: </TextBlock>
                                 <TextBlock Margin="4"
-                                           Text="{Binding Text}" />
+                                           Text="{Binding Text}" Width="600"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </ScrollViewer>
             <Grid Grid.Row="1" ColumnDefinitions="*,100">
-                <TextBox AcceptsReturn="True" Margin="5"
+                <TextBox Margin="5"  x:Name="chatTextBox"  KeyDown="TextBox_KeyDown"
                          Text="{Binding NewMessageText}"
                          Watermark="Enter your text to send and click on Send button" />
                 <Button Grid.Column="1" Margin="5"
