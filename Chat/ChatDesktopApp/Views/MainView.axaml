@@ -45,7 +45,7 @@
                 </ListBox>
             </ScrollViewer>
         </Grid>
-        <Grid RowDefinitions="*,100">
+        <Grid RowDefinitions="*,60">
             <ScrollViewer VerticalScrollBarVisibility="Visible" x:Name="scrollPanel">
                 <ListBox ItemsSource="{Binding SelectedChatRoom.Messages}" x:Name="itemsPanel">
                     <ListBox.ItemTemplate>
@@ -55,7 +55,7 @@
                                            Text="{Binding Author.Username}" />
                                 <TextBlock Margin="4">: </TextBlock>
                                 <TextBlock Margin="4"
-                                           Text="{Binding Text}" Width="600"/>
+                                           Text="{Binding Text}" Width="500" TextWrapping="Wrap"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

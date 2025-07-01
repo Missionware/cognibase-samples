@@ -11,13 +11,17 @@ using AutoGen.Core;
 using AutoGen.Gemini;
 using System.Text;
 using Google.Cloud.AIPlatform.V1;
+using System.Linq;
+using System.Collections.Concurrent;
+using static Google.Cloud.AIPlatform.V1.PublisherModel.Types.CallToAction.Types;
 
 namespace CognibaseConsoleApp
 {
     internal class Program
     {
         static ClientObjMgr _client;
-        static Dictionary<long, IStreamingAgent> _agents = new();
+        static ConcurrentDictionary<long, IStreamingAgent> _agents = new();
+        static ConcurrentDictionary<long, List<TextMessage>> _lastHistory = new();
         static User _currentUser;
         private static SimpleAuthenticationManager _authManager;
         private static string envVar;
@@ -130,8 +134,14 @@ namespace CognibaseConsoleApp
 
                 Console.WriteLine($"[{room.Name}] {msg.Author.Username}: {msg.Message}");
 
+                // get history
+                var historyMessages = _lastHistory[room.Id];
+
                 // get reply from AI agent
-                var replyText = await agent.SendAsync(msg.Text);
+                var replyText = await agent.SendAsync(msg.Text, chatHistory: historyMessages);
+
+                // add current to history
+                addMessageToHistoryCache(historyMessages, msg);
 
                 // get text
                 var rspTxt = replyText.GetContent();
@@ -159,10 +169,14 @@ namespace CognibaseConsoleApp
 
                         // check result
                         if (!result.WasSuccessful)
+                        {
                             undoset.ResetDataItems(); // reset changes if not successful
+                        }
                         else
+                        {
                             Console.WriteLine($"Message saved.");
-
+                            addMessageToHistoryCache(historyMessages, reply);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -178,6 +192,9 @@ namespace CognibaseConsoleApp
                     }
 
                 }
+
+
+
             });
         }
 
@@ -188,33 +205,54 @@ namespace CognibaseConsoleApp
             {
                 // create new agent
                 agent = new GeminiChatAgent(
-                    name: $"gemini",
+                    name: $"gemini-{room.Id}-{Guid.NewGuid().ToString()}",
                     model: "gemini-2.0-flash",
                     apiKey: envVar,
                     systemMessage: @$"
-You are Botaki, a helpful assistant observing chatroom messages.
+You are Botaki, a helpful assistant observing chatroom messages. You should remember all messages of the chat room and respond according to the below.
 
 Only respond when:
 - Your name ""Botaki"" is mentioned directly (e.g., ""Hey Botaki"", ""Botaki"", ""@Botaki"").
 - A user clearly asks for help (e.g., includes words like ""help"", ""assist"", ""support"", ""tell"").
 - There is a factual or technical question relevant to the conversation that has not been answered.
+- Don't rush to intervene, wait for a clear question or mention of your name. You are provided with the last 10 messages of history only for your reference and to better undestand the
+context of the converstation and the question or request you get.
 
 DO NOT respond to:
 - Greetings like ""hi"", ""hello"", or small talk if not mentioning your name.
 - Casual chat between users.
 - Anything not requiring your input.
 
-Keep your responses brief, informative, and in the same tone as the room. Stay silent unless you are needed.
+When responding:
+Keep your responses brief, informative, and in the same tone as the room. In case you are mentioned and a calculation is requested, respond with the result in plain/standard language and
+don't respond with algorithms, source code or tool_code unless explicitly requested in such way. In case the response is in json just present/format it in plain language appropriate for 
+human discussion.
+
+Stay silent unless you are needed.
 If you decide the message does not need a response, reply with ""__ignore__""
-
-
 "
                 ).RegisterMessageConnector()
             .RegisterPrintMessage();
 
                 _agents[room.Id] = agent;
+                _lastHistory[room.Id] = new List<TextMessage>();
+                var history = room.Messages
+                   .OrderBy(m => m.CreatedTime)
+                   .TakeLast(10)
+                   .Select(m => new TextMessage(m.Author == _currentUser ? Role.Assistant : Role.User, $"{m.Author.Username}: {m.Text}"))
+                   .ToList();
+
+                foreach (var item in history)
+                    _lastHistory[room.Id].Add(item);
             }
             return agent;
+        }
+
+        private static void addMessageToHistoryCache(List<TextMessage> historyMessages, ChatMessage message)
+        {
+            if (historyMessages.Count == 10)
+                historyMessages.RemoveAt(0);
+            historyMessages.Add(new TextMessage(message.Author == _currentUser ? Role.Assistant : Role.User, $"{message.Author.Username}: {message.Text}"));
         }
     }
 }
