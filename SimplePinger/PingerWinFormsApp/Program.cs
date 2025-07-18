@@ -29,7 +29,7 @@ namespace PingerWinFormsApp
             MainForm.App = WinFormsApplicationBuilder.CreateAsMain()
                 .WithMainWindowType<MainForm>()
                 .WithMainClient(o =>
-                    ClientBuilder
+                    new ClientBuilder()
                         .CreateFor(o)
                         .WithSettingsFromConfig()
                         .WithDomainFactory<PingerFactory>()
@@ -49,7 +49,7 @@ namespace PingerWinFormsApp
             });
 
             // Start
-            MainForm.App.StartUpClient(StartupConnectionMode.StartAndConnect);
+            MainForm.App.Run(StartupConnectionMode.StartAndConnect);
         }
     }
 }

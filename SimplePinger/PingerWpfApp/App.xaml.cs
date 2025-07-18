@@ -68,9 +68,9 @@ namespace PingerApp
 
             // Start
             if (clientSetupSettings.ProcessSecuritySetting.UseCustomWorkflowToConnectSetting)
-                PingerWpfApp.MainWindow.App.StartUpClient(StartupConnectionMode.NoConnection);
+                PingerWpfApp.MainWindow.App.Run(StartupConnectionMode.NoConnection);
             else
-                PingerWpfApp.MainWindow.App.StartUpClient(StartupConnectionMode.ConnectAndStart);
+                PingerWpfApp.MainWindow.App.Run(StartupConnectionMode.ConnectAndStart);
         }
 
 
