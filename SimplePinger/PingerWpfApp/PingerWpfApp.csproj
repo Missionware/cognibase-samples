@@ -99,7 +99,7 @@
 				<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.8" />
 				<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.8" />
 				<PackageReference Include="Missionware.SharedLib" Version="0.8.8" />
-				<PackageReference Include="\Missionware.Cognibase.UI.Common" Version="0.8.8" />
+				<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.8" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>

@@ -53,7 +53,7 @@ namespace PingerMauiApp
             using (var reader = new StreamReader(fileStream))
             {
                 configText = reader.ReadToEnd();
-                ApplicationManager.SetupGlobalApplicationPropertiesFromText(applicationXmlConfigurationText: configText);
+                Configuration.SetupMainSettingsFromText("", "", configText);
             }
 
             SettingsManager settings = ConfigBuilder.Create().FromXmlConfigText(configText);

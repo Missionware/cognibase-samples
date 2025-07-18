@@ -84,6 +84,9 @@ namespace ChatDesktopApp.ViewModels
             // set leave room command
             Func<ChatRoom, Task> leaveRoomFunc = item => LeaveRoom(item);
             LeaveRoomCommand = ReactiveCommand.CreateFromTask(leaveRoomFunc);
+
+            // set the first room as selected if exists
+            SelectedChatRoom = CurrentUser?.ChatRooms.FirstOrDefault();
         }
 
         private async Task CreateRoom()
@@ -131,6 +134,9 @@ namespace ChatDesktopApp.ViewModels
                 {
                     // after save reset the textbox
                     NewRoomText = null;
+
+                    // set current room
+                    SelectedChatRoom = curRoom;
                 }
             }
         }

@@ -56,12 +56,6 @@ namespace ChatDesktopApp.Views
             // Initializes a Client Object Manager with the settings from configuration
             var client = ClientObjMgr.Initialize(App, ref clientSettings);
 
-            // Registers domains through Domain Factory classes
-            _ = client.RegisterDomainFactory<IdentityFactory>();
-
-            // TODO: add your domain registration here
-
-
             // Initialize Security PROFILE
             _ = App.InitializeApplicationSecurity(client, ref clientSettings);
 

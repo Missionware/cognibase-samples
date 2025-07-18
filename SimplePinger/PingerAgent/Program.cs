@@ -65,7 +65,7 @@ namespace PingerAgent
             _authManager = new SimpleAuthenticationManager(cApp.Client);
 
             // Start
-            cApp.Run(StartupConnectionMode.NoConnection);
+            cApp.StartUpClient(StartupConnectionMode.NoConnection);
         }
 
         private static void App_ApplicationStartUp(object? sender, EventArgs e)
