@@ -225,7 +225,7 @@ namespace PingerAgent
             // create and return validator
             var deletionValidator =
                 new DataItemCollectionValidator<PingHistoryItem>(true) as IDataItemCollectionValidator<PingHistoryItem>;
-            deletionValidator.QueryExpression = whereActiveExpr;
+            deletionValidator.DataStoreWhereExpression = whereActiveExpr;
             deletionValidator.IsForceLoader = true;
             return deletionValidator;
         }
