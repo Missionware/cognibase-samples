@@ -75,9 +75,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.100" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.100" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.120" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.120" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc1.2" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-rc1.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
