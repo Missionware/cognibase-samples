@@ -18,6 +18,7 @@ using PingerWinFormsApp.Properties;
 using SkiaSharp;
 
 using Timer = System.Windows.Forms.Timer;
+using System.ComponentModel;
 
 namespace PingerWinFormsApp
 {
@@ -70,8 +71,11 @@ namespace PingerWinFormsApp
         public static WinFormsApplication App { get; set; }
 
         // Collection for the chart
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ObservableCollection<ISeries> Series { get; set; } = new();
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ObservableCollection<ICartesianAxis> XAxes { get; } = new();
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ObservableCollection<ICartesianAxis> YAxes { get; } = new();
 
         private void onDispose()
