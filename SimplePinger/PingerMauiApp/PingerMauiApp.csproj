@@ -89,13 +89,13 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity.Domain\Missionware.Cognibase.Security.Identity.Domain.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity\Missionware.Cognibase.Security.Identity.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"/>
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.LinuxOS\Missionware.Cognibase.Security.LinuxOS.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security\Missionware.Cognibase.Security.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Serialization\Missionware.Serialization.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib\Missionware.SharedLib.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" />
+		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.WindowsOS\Missionware.SharedLib.WindowsOS.csproj" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.LinuxOS\Missionware.SharedLib.LinuxOS.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.SharedLib.UI\Missionware.SharedLib.UI.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.UI.Maui\Missionware.Cognibase.UI.Maui.csproj" />
@@ -108,13 +108,13 @@
 		<PackageReference Include="Missionware.Cognibase.Security.Identity.Domain" Version="0.8.8" />
 		<PackageReference Include="Missionware.Cognibase.Security.Identity" Version="0.8.8" />
 		<PackageReference Include="Missionware.Cognibase.Security.Ldap" Version="0.8.8" />
-		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.Cognibase.Security.WindowsOS" Version="0.8.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
 		<PackageReference Include="Missionware.Cognibase.Security.LinuxOS" Version="0.8.8" />
 		<PackageReference Include="Missionware.Cognibase.Security" Version="0.8.8" />
 		<PackageReference Include="Missionware.Cognibase" Version="0.8.8" />
 		<PackageReference Include="Missionware.Serialization" Version="0.8.8" />
-		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.8" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.8" />
+		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"/>
 		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.8.8" />
 		<PackageReference Include="Missionware.SharedLib" Version="0.8.8" />
 		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.8.8" />
