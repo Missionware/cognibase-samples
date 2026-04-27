@@ -88,15 +88,15 @@ public partial class HomeView : UserControl
         }
     }
 
-    private void ItemTextBox_GotFocus(object? sender, GotFocusEventArgs e)
-    {
-        if (sender is TextBox textBox)
-        {
-            // Exit edit mode
-            textBox.CaretBrush = Brushes.Transparent;
-            textBox.BorderBrush = Brushes.Transparent;
-        }
-    }
+    //private void ItemTextBox_GotFocus(object? sender, GotFocusEventArgs e)
+    //{
+    //    if (sender is TextBox textBox)
+    //    {
+    //        // Exit edit mode
+    //        textBox.CaretBrush = Brushes.Transparent;
+    //        textBox.BorderBrush = Brushes.Transparent;
+    //    }
+    //}
 
     private void ItemTextBox_DoubleTapped(object? sender, TappedEventArgs e)
     {

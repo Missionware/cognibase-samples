@@ -24,7 +24,7 @@
 		<PackageReference Include="Missionware.Cognibase.UI.Common" Version="0.8.8" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 	  <PackageReference Include="LiveChartsCore" Version="2.0.0-rc1.2" />
 	  <PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc1.2" />
       <PackageReference Include="SkiaSharp" Version="3.119.0" />

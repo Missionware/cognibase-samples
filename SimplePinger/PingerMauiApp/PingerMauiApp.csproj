@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-ios;net9.0-maccatalyst;net9.0-android35.0</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net10.0-ios;net10.0-maccatalyst;net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 
 		<!-- Add RuntimeIdentifiers for iOS -->
 		<RuntimeIdentifier Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">ios-arm64</RuntimeIdentifier>
 		
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net10.0-tizen</TargetFrameworks> -->
 
 		<!-- Note for MacCatalyst:
 		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
@@ -43,7 +43,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|AnyCPU'">
 	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
 	  <RunAOTCompilation>False</RunAOTCompilation>
 	</PropertyGroup>
@@ -75,12 +75,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.120" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.41" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.120" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc1.2" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-rc1.2" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.7" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.6" />
 	</ItemGroup>
@@ -89,7 +89,7 @@
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.AppManagement.Domain\Missionware.Cognibase.AppManagement.Domain.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity.Domain\Missionware.Cognibase.Security.Identity.Domain.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.Identity\Missionware.Cognibase.Security.Identity.csproj" />
-		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"/>
+		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.WindowsOS\Missionware.Cognibase.Security.WindowsOS.csproj" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security.LinuxOS\Missionware.Cognibase.Security.LinuxOS.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Security\Missionware.Cognibase.Security.csproj" />
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase\Missionware.Cognibase.csproj" />
@@ -114,7 +114,7 @@
 		<PackageReference Include="Missionware.Cognibase" Version="0.8.8" />
 		<PackageReference Include="Missionware.Serialization" Version="0.8.8" />
 		<PackageReference Include="Missionware.SharedLib.UI.WindowsOS" Version="0.8.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
-		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"/>
+		<PackageReference Include="Missionware.SharedLib.WindowsOS" Version="0.8.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
 		<PackageReference Include="Missionware.SharedLib.LinuxOS" Version="0.8.8" />
 		<PackageReference Include="Missionware.SharedLib" Version="0.8.8" />
 		<PackageReference Include="Missionware.Cognibase.UI.Maui" Version="0.8.8" />

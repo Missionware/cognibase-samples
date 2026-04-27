@@ -7,7 +7,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
   </PropertyGroup>
 	<ItemGroup Condition="$(SolutionName.Contains('Refactoring')) Or $(SolutionName.Contains('Analysis'))">
 		<ProjectReference Include="..\..\..\odos\src\Missionware.Cognibase.Comm.Streaming\Missionware.Cognibase.Comm.Streaming.csproj" />
